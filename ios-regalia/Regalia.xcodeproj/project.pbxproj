@@ -1,0 +1,1160 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		XX13C3591B6E5A11C4906DXX /* RegaliaShieldAction.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = XXE81B4CA30A5D41F4F0E7XX /* RegaliaShieldAction.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		XX5148B10F9080A4C81EFCXX /* RegaliaWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = XXD602449BC1ACFEBBAE0BXX /* RegaliaWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		XX9A29B99148EA27229706XX /* RegaliaMonitor.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = XXA889C9DB8B0E36F9EFB9XX /* RegaliaMonitor.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		XXD63457E41125E77BACFDXX /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = XX8F6E1A701EA04CDCEA3DXX /* RevenueCat */; };
+		XXE7A41C0B96D5382FA47CXX /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = XX2B90F58D3A6E17C4D0B8XX /* RevenueCatUI */; };
+		XXF2F6392CC2FC4406B4B9XX /* RegaliaShield.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = XXC049BB9571F5743E0D8EXX /* RegaliaShield.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		105FC58A2E9EAD3200EA8BCF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 105FC5722E9EAD3100EA8BCF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 105FC5792E9EAD3100EA8BCF;
+			remoteInfo = Regalia;
+		};
+		105FC5942E9EAD3200EA8BCF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 105FC5722E9EAD3100EA8BCF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 105FC5792E9EAD3100EA8BCF;
+			remoteInfo = Regalia;
+		};
+		XX6A60AF9D37E14657BE31XX /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 105FC5722E9EAD3100EA8BCF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = XXB9D698C19042ADFB0D2AXX;
+			remoteInfo = RegaliaShield;
+		};
+		XX9B7BF56802A9D1573AB9XX /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 105FC5722E9EAD3100EA8BCF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = XX4AA9106ACE3D270A2405XX;
+			remoteInfo = RegaliaWidget;
+		};
+		XX9EAA654C1ED9ECA75775XX /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 105FC5722E9EAD3100EA8BCF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = XX56979330E80B6EC49CFEXX;
+			remoteInfo = RegaliaShieldAction;
+		};
+		XXD8E42B83FF6267CA546DXX /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 105FC5722E9EAD3100EA8BCF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = XXAC7950329F32DED7DA9FXX;
+			remoteInfo = RegaliaMonitor;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		XX8618DA762832199DA68BXX /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				XXF2F6392CC2FC4406B4B9XX /* RegaliaShield.appex in Embed Foundation Extensions */,
+				XX13C3591B6E5A11C4906DXX /* RegaliaShieldAction.appex in Embed Foundation Extensions */,
+				XX9A29B99148EA27229706XX /* RegaliaMonitor.appex in Embed Foundation Extensions */,
+				XX5148B10F9080A4C81EFCXX /* RegaliaWidget.appex in Embed Foundation Extensions */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Embed Foundation Extensions";
+			dstPath = "";
+			dstSubfolderSpec = 13;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		105FC57A2E9EAD3100EA8BCF /* Regalia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Regalia.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		105FC5892E9EAD3200EA8BCF /* RegaliaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RegaliaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		105FC5932E9EAD3200EA8BCF /* RegaliaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RegaliaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		XXA889C9DB8B0E36F9EFB9XX /* RegaliaMonitor.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RegaliaMonitor.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		XXC049BB9571F5743E0D8EXX /* RegaliaShield.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RegaliaShield.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		XXD602449BC1ACFEBBAE0BXX /* RegaliaWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RegaliaWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		XXE81B4CA30A5D41F4F0E7XX /* RegaliaShieldAction.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RegaliaShieldAction.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		XX18BF5AFF5C0A62125B59XX /* Exceptions for "RegaliaWidget" folder in "RegaliaWidget" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = XX4AA9106ACE3D270A2405XX /* RegaliaWidget */;
+		};
+		XX71AB04293AF34BE79758XX /* Exceptions for "RegaliaMonitor" folder in "RegaliaMonitor" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = XXAC7950329F32DED7DA9FXX /* RegaliaMonitor */;
+		};
+		XXB4FC364836A266488803XX /* Exceptions for "RegaliaShieldAction" folder in "RegaliaShieldAction" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = XX56979330E80B6EC49CFEXX /* RegaliaShieldAction */;
+		};
+		XXC487F7B6413DD830B988XX /* Exceptions for "RegaliaShield" folder in "RegaliaShield" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = XXB9D698C19042ADFB0D2AXX /* RegaliaShield */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		105FC57C2E9EAD3100EA8BCF /* Regalia */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Regalia;
+			sourceTree = "<group>";
+		};
+		105FC58C2E9EAD3200EA8BCF /* RegaliaTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = RegaliaTests;
+			sourceTree = "<group>";
+		};
+		105FC5962E9EAD3200EA8BCF /* RegaliaUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = RegaliaUITests;
+			sourceTree = "<group>";
+		};
+		XX061C0E7D985A395923C0XX /* RegaliaWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = RegaliaWidget;
+			sourceTree = "<group>";
+			exceptions = (
+				XX18BF5AFF5C0A62125B59XX /* Exceptions for "RegaliaWidget" folder in "RegaliaWidget" target */,
+			);
+		};
+		XX5EBBC4ED3F1E0845D4C4XX /* RegaliaShieldAction */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = RegaliaShieldAction;
+			sourceTree = "<group>";
+			exceptions = (
+				XXB4FC364836A266488803XX /* Exceptions for "RegaliaShieldAction" folder in "RegaliaShieldAction" target */,
+			);
+		};
+		XXCA2BE4EFCFFB01D1CD18XX /* RegaliaMonitor */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = RegaliaMonitor;
+			sourceTree = "<group>";
+			exceptions = (
+				XX71AB04293AF34BE79758XX /* Exceptions for "RegaliaMonitor" folder in "RegaliaMonitor" target */,
+			);
+		};
+		XXE3F8F2748E95103786D8XX /* RegaliaShield */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = RegaliaShield;
+			sourceTree = "<group>";
+			exceptions = (
+				XXC487F7B6413DD830B988XX /* Exceptions for "RegaliaShield" folder in "RegaliaShield" target */,
+			);
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		105FC5772E9EAD3100EA8BCF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				XXD63457E41125E77BACFDXX /* RevenueCat in Frameworks */,
+				XXE7A41C0B96D5382FA47CXX /* RevenueCatUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		105FC5862E9EAD3200EA8BCF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		105FC5902E9EAD3200EA8BCF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		XX4D7AFC177C15D7EC7612XX /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		XX866461636273A5D60818XX /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		XXAD3A5728DA98FEDE5EE7XX /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		XXCE1DC6C58FE0ACFC34FAXX /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		105FC5712E9EAD3100EA8BCF = {
+			isa = PBXGroup;
+			children = (
+				105FC57C2E9EAD3100EA8BCF /* Regalia */,
+				105FC58C2E9EAD3200EA8BCF /* RegaliaTests */,
+				105FC5962E9EAD3200EA8BCF /* RegaliaUITests */,
+				105FC57B2E9EAD3100EA8BCF /* Products */,
+				XXE3F8F2748E95103786D8XX /* RegaliaShield */,
+				XX5EBBC4ED3F1E0845D4C4XX /* RegaliaShieldAction */,
+				XXCA2BE4EFCFFB01D1CD18XX /* RegaliaMonitor */,
+				XX061C0E7D985A395923C0XX /* RegaliaWidget */,
+			);
+			sourceTree = "<group>";
+		};
+		105FC57B2E9EAD3100EA8BCF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				105FC57A2E9EAD3100EA8BCF /* Regalia.app */,
+				105FC5892E9EAD3200EA8BCF /* RegaliaTests.xctest */,
+				105FC5932E9EAD3200EA8BCF /* RegaliaUITests.xctest */,
+				XXC049BB9571F5743E0D8EXX /* RegaliaShield.appex */,
+				XXE81B4CA30A5D41F4F0E7XX /* RegaliaShieldAction.appex */,
+				XXA889C9DB8B0E36F9EFB9XX /* RegaliaMonitor.appex */,
+				XXD602449BC1ACFEBBAE0BXX /* RegaliaWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		105FC5792E9EAD3100EA8BCF /* Regalia */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 105FC59D2E9EAD3200EA8BCF /* Build configuration list for PBXNativeTarget "Regalia" */;
+			buildPhases = (
+				105FC5762E9EAD3100EA8BCF /* Sources */,
+				105FC5772E9EAD3100EA8BCF /* Frameworks */,
+				105FC5782E9EAD3100EA8BCF /* Resources */,
+				XX8618DA762832199DA68BXX /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				XXD5E00B65577DF288AA6FXX /* PBXTargetDependency */,
+				XX53F30401A731E36A6390XX /* PBXTargetDependency */,
+				XX63C628F64A494D672BAAXX /* PBXTargetDependency */,
+				XXC6CF90AF6C0EFAD9A8BFXX /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				105FC57C2E9EAD3100EA8BCF /* Regalia */,
+			);
+			name = Regalia;
+			packageProductDependencies = (
+				XX8F6E1A701EA04CDCEA3DXX /* RevenueCat */,
+				XX2B90F58D3A6E17C4D0B8XX /* RevenueCatUI */,
+			);
+			productName = Regalia;
+			productReference = 105FC57A2E9EAD3100EA8BCF /* Regalia.app */;
+			productType = "com.apple.product-type.application";
+		};
+		105FC5882E9EAD3200EA8BCF /* RegaliaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 105FC5A02E9EAD3200EA8BCF /* Build configuration list for PBXNativeTarget "RegaliaTests" */;
+			buildPhases = (
+				105FC5852E9EAD3200EA8BCF /* Sources */,
+				105FC5862E9EAD3200EA8BCF /* Frameworks */,
+				105FC5872E9EAD3200EA8BCF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				105FC58B2E9EAD3200EA8BCF /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				105FC58C2E9EAD3200EA8BCF /* RegaliaTests */,
+			);
+			name = RegaliaTests;
+			packageProductDependencies = (
+			);
+			productName = RegaliaTests;
+			productReference = 105FC5892E9EAD3200EA8BCF /* RegaliaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		105FC5922E9EAD3200EA8BCF /* RegaliaUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 105FC5A32E9EAD3200EA8BCF /* Build configuration list for PBXNativeTarget "RegaliaUITests" */;
+			buildPhases = (
+				105FC58F2E9EAD3200EA8BCF /* Sources */,
+				105FC5902E9EAD3200EA8BCF /* Frameworks */,
+				105FC5912E9EAD3200EA8BCF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				105FC5952E9EAD3200EA8BCF /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				105FC5962E9EAD3200EA8BCF /* RegaliaUITests */,
+			);
+			name = RegaliaUITests;
+			packageProductDependencies = (
+			);
+			productName = RegaliaUITests;
+			productReference = 105FC5932E9EAD3200EA8BCF /* RegaliaUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		XX4AA9106ACE3D270A2405XX /* RegaliaWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = XX73213BB0610869AE0D07XX /* Build configuration list for PBXNativeTarget "RegaliaWidget" */;
+			buildPhases = (
+				XXB1920988521E5FA8B475XX /* Sources */,
+				XX866461636273A5D60818XX /* Frameworks */,
+				XX25CCA2C61E8639739439XX /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RegaliaWidget;
+			productName = RegaliaWidget;
+			productReference = XXD602449BC1ACFEBBAE0BXX /* RegaliaWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+			fileSystemSynchronizedGroups = (
+				XX061C0E7D985A395923C0XX /* RegaliaWidget */,
+			);
+		};
+		XX56979330E80B6EC49CFEXX /* RegaliaShieldAction */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = XX9FD12FC1BC5D9D84AD5BXX /* Build configuration list for PBXNativeTarget "RegaliaShieldAction" */;
+			buildPhases = (
+				XX0D13A57A69BD3BC47618XX /* Sources */,
+				XXAD3A5728DA98FEDE5EE7XX /* Frameworks */,
+				XX4981B6C37F911B375EDEXX /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RegaliaShieldAction;
+			productName = RegaliaShieldAction;
+			productReference = XXE81B4CA30A5D41F4F0E7XX /* RegaliaShieldAction.appex */;
+			productType = "com.apple.product-type.app-extension";
+			fileSystemSynchronizedGroups = (
+				XX5EBBC4ED3F1E0845D4C4XX /* RegaliaShieldAction */,
+			);
+		};
+		XXAC7950329F32DED7DA9FXX /* RegaliaMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = XX9158C9C068EE6478562EXX /* Build configuration list for PBXNativeTarget "RegaliaMonitor" */;
+			buildPhases = (
+				XXD2DF7BFD73EE040D3A01XX /* Sources */,
+				XXCE1DC6C58FE0ACFC34FAXX /* Frameworks */,
+				XXF54B71952270D5B7B36DXX /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RegaliaMonitor;
+			productName = RegaliaMonitor;
+			productReference = XXA889C9DB8B0E36F9EFB9XX /* RegaliaMonitor.appex */;
+			productType = "com.apple.product-type.app-extension";
+			fileSystemSynchronizedGroups = (
+				XXCA2BE4EFCFFB01D1CD18XX /* RegaliaMonitor */,
+			);
+		};
+		XXB9D698C19042ADFB0D2AXX /* RegaliaShield */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = XX3BE630C22A5BA6E7E4E4XX /* Build configuration list for PBXNativeTarget "RegaliaShield" */;
+			buildPhases = (
+				XXFF92D90B3D54FA7F4185XX /* Sources */,
+				XX4D7AFC177C15D7EC7612XX /* Frameworks */,
+				XX465BB56FE0416C6305DEXX /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RegaliaShield;
+			productName = RegaliaShield;
+			productReference = XXC049BB9571F5743E0D8EXX /* RegaliaShield.appex */;
+			productType = "com.apple.product-type.app-extension";
+			fileSystemSynchronizedGroups = (
+				XXE3F8F2748E95103786D8XX /* RegaliaShield */,
+			);
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		105FC5722E9EAD3100EA8BCF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					105FC5792E9EAD3100EA8BCF = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					105FC5882E9EAD3200EA8BCF = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 105FC5792E9EAD3100EA8BCF;
+					};
+					105FC5922E9EAD3200EA8BCF = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 105FC5792E9EAD3100EA8BCF;
+					};
+				};
+			};
+			buildConfigurationList = 105FC5752E9EAD3100EA8BCF /* Build configuration list for PBXProject "Regalia" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 105FC5712E9EAD3100EA8BCF;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 105FC57B2E9EAD3100EA8BCF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				105FC5792E9EAD3100EA8BCF /* Regalia */,
+				105FC5882E9EAD3200EA8BCF /* RegaliaTests */,
+				105FC5922E9EAD3200EA8BCF /* RegaliaUITests */,
+				XXB9D698C19042ADFB0D2AXX /* RegaliaShield */,
+				XX56979330E80B6EC49CFEXX /* RegaliaShieldAction */,
+				XXAC7950329F32DED7DA9FXX /* RegaliaMonitor */,
+				XX4AA9106ACE3D270A2405XX /* RegaliaWidget */,
+			);
+			packageReferences = (
+				XX56D7F10BAEE1D3529BF9XX /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		105FC5782E9EAD3100EA8BCF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		105FC5872E9EAD3200EA8BCF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		105FC5912E9EAD3200EA8BCF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		XX25CCA2C61E8639739439XX /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		XX465BB56FE0416C6305DEXX /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		XX4981B6C37F911B375EDEXX /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		XXF54B71952270D5B7B36DXX /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		105FC5762E9EAD3100EA8BCF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		105FC5852E9EAD3200EA8BCF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		105FC58F2E9EAD3200EA8BCF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		XX0D13A57A69BD3BC47618XX /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		XXB1920988521E5FA8B475XX /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		XXD2DF7BFD73EE040D3A01XX /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		XXFF92D90B3D54FA7F4185XX /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		105FC58B2E9EAD3200EA8BCF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 105FC5792E9EAD3100EA8BCF /* Regalia */;
+			targetProxy = 105FC58A2E9EAD3200EA8BCF /* PBXContainerItemProxy */;
+		};
+		105FC5952E9EAD3200EA8BCF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 105FC5792E9EAD3100EA8BCF /* Regalia */;
+			targetProxy = 105FC5942E9EAD3200EA8BCF /* PBXContainerItemProxy */;
+		};
+		XX53F30401A731E36A6390XX /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = XX56979330E80B6EC49CFEXX /* RegaliaShieldAction */;
+			targetProxy = XX9EAA654C1ED9ECA75775XX /* PBXContainerItemProxy */;
+		};
+		XX63C628F64A494D672BAAXX /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = XXAC7950329F32DED7DA9FXX /* RegaliaMonitor */;
+			targetProxy = XXD8E42B83FF6267CA546DXX /* PBXContainerItemProxy */;
+		};
+		XXC6CF90AF6C0EFAD9A8BFXX /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = XX4AA9106ACE3D270A2405XX /* RegaliaWidget */;
+			targetProxy = XX9B7BF56802A9D1573AB9XX /* PBXContainerItemProxy */;
+		};
+		XXD5E00B65577DF288AA6FXX /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = XXB9D698C19042ADFB0D2AXX /* RegaliaShield */;
+			targetProxy = XX6A60AF9D37E14657BE31XX /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		105FC59B2E9EAD3200EA8BCF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		105FC59C2E9EAD3200EA8BCF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		105FC59E2E9EAD3200EA8BCF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Entitlements/Regalia.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.rork.c9feujhlfbusu7b56fh6w;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		105FC59F2E9EAD3200EA8BCF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Entitlements/Regalia.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.rork.c9feujhlfbusu7b56fh6w;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		105FC5A12E9EAD3200EA8BCF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.rork.c9feujhlfbusu7b56fh6w.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Regalia.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Regalia";
+			};
+			name = Debug;
+		};
+		105FC5A22E9EAD3200EA8BCF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.rork.c9feujhlfbusu7b56fh6w.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Regalia.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Regalia";
+			};
+			name = Release;
+		};
+		105FC5A42E9EAD3200EA8BCF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.rork.c9feujhlfbusu7b56fh6w.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Regalia;
+			};
+			name = Debug;
+		};
+		105FC5A52E9EAD3200EA8BCF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.rork.c9feujhlfbusu7b56fh6w.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Regalia;
+			};
+			name = Release;
+		};
+		XX2A848F4A8E3843D29BD6XX /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = app.rork.c9feujhlfbusu7b56fh6w.regaliawidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements/RegaliaWidget.entitlements;
+				SDKROOT = iphoneos;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RegaliaWidget/Info.plist;
+				SWIFT_VERSION = 5.0;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				MARKETING_VERSION = 1.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				INFOPLIST_KEY_CFBundleDisplayName = "$(PRODUCT_NAME)";
+			};
+			name = Debug;
+		};
+		XX41128844CE8C876B26E9XX /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = app.rork.c9feujhlfbusu7b56fh6w.regaliamonitor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements/RegaliaMonitor.entitlements;
+				SDKROOT = iphoneos;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RegaliaMonitor/Info.plist;
+				SWIFT_VERSION = 5.0;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				MARKETING_VERSION = 1.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				INFOPLIST_KEY_CFBundleDisplayName = "$(PRODUCT_NAME)";
+			};
+			name = Debug;
+		};
+		XX4E716C838F52C9CAB6BDXX /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = app.rork.c9feujhlfbusu7b56fh6w.regaliashield;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements/RegaliaShield.entitlements;
+				SDKROOT = iphoneos;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RegaliaShield/Info.plist;
+				SWIFT_VERSION = 5.0;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				MARKETING_VERSION = 1.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				INFOPLIST_KEY_CFBundleDisplayName = "$(PRODUCT_NAME)";
+			};
+			name = Debug;
+		};
+		XX74A09C85B639EE99E558XX /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = app.rork.c9feujhlfbusu7b56fh6w.regaliawidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements/RegaliaWidget.entitlements;
+				SDKROOT = iphoneos;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RegaliaWidget/Info.plist;
+				SWIFT_VERSION = 5.0;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				MARKETING_VERSION = 1.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				INFOPLIST_KEY_CFBundleDisplayName = "$(PRODUCT_NAME)";
+			};
+			name = Release;
+		};
+		XX7FE304CDB93FFA15639BXX /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = app.rork.c9feujhlfbusu7b56fh6w.regaliashieldaction;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements/RegaliaShieldAction.entitlements;
+				SDKROOT = iphoneos;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RegaliaShieldAction/Info.plist;
+				SWIFT_VERSION = 5.0;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				MARKETING_VERSION = 1.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				INFOPLIST_KEY_CFBundleDisplayName = "$(PRODUCT_NAME)";
+			};
+			name = Release;
+		};
+		XXD2D3288DD52D5CBC7F20XX /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = app.rork.c9feujhlfbusu7b56fh6w.regaliashield;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements/RegaliaShield.entitlements;
+				SDKROOT = iphoneos;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RegaliaShield/Info.plist;
+				SWIFT_VERSION = 5.0;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				MARKETING_VERSION = 1.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				INFOPLIST_KEY_CFBundleDisplayName = "$(PRODUCT_NAME)";
+			};
+			name = Release;
+		};
+		XXD5B0BC5821EFC1AE8393XX /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = app.rork.c9feujhlfbusu7b56fh6w.regaliamonitor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements/RegaliaMonitor.entitlements;
+				SDKROOT = iphoneos;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RegaliaMonitor/Info.plist;
+				SWIFT_VERSION = 5.0;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				MARKETING_VERSION = 1.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				INFOPLIST_KEY_CFBundleDisplayName = "$(PRODUCT_NAME)";
+			};
+			name = Release;
+		};
+		XXFE5A217F026FCDB1046BXX /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = app.rork.c9feujhlfbusu7b56fh6w.regaliashieldaction;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements/RegaliaShieldAction.entitlements;
+				SDKROOT = iphoneos;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RegaliaShieldAction/Info.plist;
+				SWIFT_VERSION = 5.0;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				MARKETING_VERSION = 1.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				INFOPLIST_KEY_CFBundleDisplayName = "$(PRODUCT_NAME)";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		105FC5752E9EAD3100EA8BCF /* Build configuration list for PBXProject "Regalia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				105FC59B2E9EAD3200EA8BCF /* Debug */,
+				105FC59C2E9EAD3200EA8BCF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		105FC59D2E9EAD3200EA8BCF /* Build configuration list for PBXNativeTarget "Regalia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				105FC59E2E9EAD3200EA8BCF /* Debug */,
+				105FC59F2E9EAD3200EA8BCF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		105FC5A02E9EAD3200EA8BCF /* Build configuration list for PBXNativeTarget "RegaliaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				105FC5A12E9EAD3200EA8BCF /* Debug */,
+				105FC5A22E9EAD3200EA8BCF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		105FC5A32E9EAD3200EA8BCF /* Build configuration list for PBXNativeTarget "RegaliaUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				105FC5A42E9EAD3200EA8BCF /* Debug */,
+				105FC5A52E9EAD3200EA8BCF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		XX3BE630C22A5BA6E7E4E4XX /* Build configuration list for PBXNativeTarget "RegaliaShield" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				XX4E716C838F52C9CAB6BDXX /* Debug */,
+				XXD2D3288DD52D5CBC7F20XX /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		XX73213BB0610869AE0D07XX /* Build configuration list for PBXNativeTarget "RegaliaWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				XX2A848F4A8E3843D29BD6XX /* Debug */,
+				XX74A09C85B639EE99E558XX /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		XX9158C9C068EE6478562EXX /* Build configuration list for PBXNativeTarget "RegaliaMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				XX41128844CE8C876B26E9XX /* Debug */,
+				XXD5B0BC5821EFC1AE8393XX /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		XX9FD12FC1BC5D9D84AD5BXX /* Build configuration list for PBXNativeTarget "RegaliaShieldAction" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				XXFE5A217F026FCDB1046BXX /* Debug */,
+				XX7FE304CDB93FFA15639BXX /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		XX56D7F10BAEE1D3529BF9XX /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.14.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		XX8F6E1A701EA04CDCEA3DXX /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = XX56D7F10BAEE1D3529BF9XX /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
+		};
+		XX2B90F58D3A6E17C4D0B8XX /* RevenueCatUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = XX56D7F10BAEE1D3529BF9XX /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCatUI;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 105FC5722E9EAD3100EA8BCF /* Project object */;
+}
