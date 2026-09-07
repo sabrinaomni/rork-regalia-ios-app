@@ -25,11 +25,12 @@ struct PaywallView: View {
     @Environment(SubscriptionStore.self) private var subscriptions
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @Environment(\.openURL) private var openURL
 
     @State private var contentAppeared = false
     @State private var bubblesAppeared = false
     @State private var showRemotePaywall = false
+    /// The legal document being read over the paywall, if any.
+    @State private var legalDocument: LegalDocument?
 
     var body: some View {
         ZStack {
@@ -71,6 +72,11 @@ struct PaywallView: View {
         }
         .fullScreenCover(isPresented: $showRemotePaywall) {
             RemotePaywallView()
+        }
+        // Read in the app rather than a browser: the text is in the binary, so it
+        // can never fail to load in front of a reviewer.
+        .sheet(item: $legalDocument) { document in
+            LegalDocumentView(document: document)
         }
         .task {
             await subscriptions.start()
@@ -480,24 +486,23 @@ struct PaywallView: View {
 
     private var smallPrint: some View {
         HStack(spacing: 6) {
-            legalLink("Terms", urlString: SubscriptionLinks.terms)
+            legalLink("Terms", document: .terms)
             Text("·")
                 .foregroundStyle(RegaliaTheme.steel.opacity(0.6))
-            legalLink("Privacy", urlString: SubscriptionLinks.privacy)
+            legalLink("Privacy", document: .privacy)
         }
         .font(.caption2)
         .frame(maxWidth: .infinity)
     }
 
-    @ViewBuilder
-    private func legalLink(_ title: String, urlString: String) -> some View {
-        if let url = URL(string: urlString) {
-            Button(title) {
-                openURL(url)
-            }
-            .buttonStyle(.plain)
-            .foregroundStyle(RegaliaTheme.steelBright)
+    private func legalLink(_ title: String, document: LegalDocument) -> some View {
+        Button(title) {
+            Haptics.tap()
+            legalDocument = document
         }
+        .buttonStyle(.plain)
+        .foregroundStyle(RegaliaTheme.steelBright)
+        .accessibilityHint("Opens \(document.title) in Regalia")
     }
 }
 

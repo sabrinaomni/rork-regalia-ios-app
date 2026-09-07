@@ -18,6 +18,8 @@ struct SettingsView: View {
     @State private var showReset = false
     @State private var showPaywall = false
     @State private var showManageSubscription = false
+    /// The legal document being read, if any.
+    @State private var legalDocument: LegalDocument?
 
     var body: some View {
         ZStack {
@@ -45,6 +47,9 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $showReasons) {
             ReasonsEditor()
+        }
+        .sheet(item: $legalDocument) { document in
+            LegalDocumentView(document: document)
         }
         .fullScreenCover(isPresented: $showPaywall) {
             PaywallView(context: .settings, name: store.profile.name)
@@ -387,17 +392,44 @@ struct SettingsView: View {
     private var legalCard: some View {
         SettingsCard(title: "Support & legal") {
             VStack(spacing: 14) {
-                linkRow("Contact support", urlString: SubscriptionLinks.support)
+                webRow("Contact support", urlString: SubscriptionLinks.support)
                 Divider().overlay(RegaliaTheme.hairline)
-                linkRow("Terms of use", urlString: SubscriptionLinks.terms)
+                documentRow("Terms of use", document: .terms)
                 Divider().overlay(RegaliaTheme.hairline)
-                linkRow("Privacy policy", urlString: SubscriptionLinks.privacy)
+                documentRow("Privacy policy", document: .privacy)
+                Divider().overlay(RegaliaTheme.hairline)
+
+                Text("\(LegalEntity.name) · \(LegalEntity.email)")
+                    .font(.footnote)
+                    .foregroundStyle(RegaliaTheme.steel)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             .font(.system(size: 16))
         }
     }
 
-    private func linkRow(_ title: String, urlString: String) -> some View {
+    /// Legal text lives in the app, so it opens here rather than in a browser.
+    private func documentRow(_ title: String, document: LegalDocument) -> some View {
+        Button {
+            Haptics.tap()
+            legalDocument = document
+        } label: {
+            HStack(spacing: 10) {
+                Text(title)
+                    .foregroundStyle(RegaliaTheme.bone)
+                Spacer(minLength: 8)
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(RegaliaTheme.steel.opacity(0.7))
+            }
+            .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .accessibilityHint("Opens \(document.title) in Regalia")
+    }
+
+    private func webRow(_ title: String, urlString: String) -> some View {
         Button {
             Haptics.tap()
             if let url = URL(string: urlString) { openURL(url) }
