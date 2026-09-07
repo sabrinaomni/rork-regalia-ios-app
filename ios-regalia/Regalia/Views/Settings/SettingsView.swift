@@ -7,6 +7,7 @@ struct SettingsView: View {
     @Environment(ScreenTimeGuard.self) private var screenTime
     @Environment(ReminderScheduler.self) private var reminders
     @Environment(SubscriptionStore.self) private var subscriptions
+    @Environment(\.openURL) private var openURL
 
     /// Binding to the root tab selection, so the Guard link row can switch tabs.
     @Binding var selection: Int
@@ -34,6 +35,7 @@ struct SettingsView: View {
                     guardLinkRow
                     remindersCard
                     aboutCard
+                    legalCard
                     dangerCard
                 }
                 .padding(.horizontal, 20)
@@ -378,6 +380,40 @@ struct SettingsView: View {
                     .padding(.top, 4)
             }
         }
+    }
+
+    /// Support and the legal small print — reachable from Settings without going
+    /// through the paywall, which App Review checks for.
+    private var legalCard: some View {
+        SettingsCard(title: "Support & legal") {
+            VStack(spacing: 14) {
+                linkRow("Contact support", urlString: SubscriptionLinks.support)
+                Divider().overlay(RegaliaTheme.hairline)
+                linkRow("Terms of use", urlString: SubscriptionLinks.terms)
+                Divider().overlay(RegaliaTheme.hairline)
+                linkRow("Privacy policy", urlString: SubscriptionLinks.privacy)
+            }
+            .font(.system(size: 16))
+        }
+    }
+
+    private func linkRow(_ title: String, urlString: String) -> some View {
+        Button {
+            Haptics.tap()
+            if let url = URL(string: urlString) { openURL(url) }
+        } label: {
+            HStack(spacing: 10) {
+                Text(title)
+                    .foregroundStyle(RegaliaTheme.bone)
+                Spacer(minLength: 8)
+                Image(systemName: "arrow.up.right")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(RegaliaTheme.steel.opacity(0.7))
+            }
+            .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .accessibilityHint("Opens the Regalia website")
     }
 
     private var dangerCard: some View {

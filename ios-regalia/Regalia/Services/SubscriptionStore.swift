@@ -39,12 +39,10 @@ nonisolated struct PlanOption: Identifiable, Equatable, Sendable {
 }
 
 /// Small print destinations required for subscription review.
-///
-/// - Important: `privacy` currently points at a generic policy. Replace it with
-///   Regalia's own privacy policy URL before submitting to the App Store.
 nonisolated enum SubscriptionLinks {
-    static let terms = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
-    static let privacy = "https://www.apple.com/legal/privacy/en-ww/"
+    static let terms = "https://wear-regalia-daily.base44.app/terms"
+    static let privacy = "https://wear-regalia-daily.base44.app/privacy"
+    static let support = "https://wear-regalia-daily.base44.app/support"
 }
 
 /// Owns Regalia's subscription state: the offering shown on the paywall, the
