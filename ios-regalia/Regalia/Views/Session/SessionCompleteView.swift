@@ -3,10 +3,13 @@ import SwiftUI
 /// The closing moment of the session: full armour, streak, and released apps.
 struct SessionCompleteView: View {
     @Environment(RegaliaStore.self) private var store
+    @Environment(RatingCoordinator.self) private var ratings
 
     let onDone: () -> Void
 
     @State private var appeared = false
+    /// The gold star card, raised only when the rating rules allow it.
+    @State private var showRatingCard = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -44,6 +47,17 @@ struct SessionCompleteView: View {
             .opacity(appeared ? 1 : 0)
             .offset(y: appeared ? 0 : 20)
 
+            if showRatingCard {
+                RatingAskCard(mode: .celebration) {
+                    withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) {
+                        showRatingCard = false
+                    }
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 18)
+                .transition(.opacity.combined(with: .offset(y: 26)))
+            }
+
             Spacer(minLength: 12)
 
             RegaliaPrimaryButton(title: "Go live it out", systemImage: "sun.max.fill", showsChevron: false) {
@@ -55,6 +69,26 @@ struct SessionCompleteView: View {
         }
         .onAppear {
             withAnimation(.spring(response: 0.8, dampingFraction: 0.7)) { appeared = true }
+            scheduleRatingAsk()
+        }
+    }
+
+    /// The card rises about a second after the tiles settle, and only when the
+    /// rules allow: the first completed session or a milestone streak, never
+    /// after a missed day or in the same session as a spent unlock pass.
+    private func scheduleRatingAsk() {
+        guard ratings.shouldAskOnCompletion(
+            streak: store.streak,
+            completedSessions: store.completedRecords.count,
+            missedYesterday: store.missedYesterday,
+            spentPassToday: store.unlockGrants.contains { Calendar.current.isDateInToday($0) }
+        ) else { return }
+
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(1.05))
+            withAnimation(.spring(response: 0.55, dampingFraction: 0.85)) {
+                showRatingCard = true
+            }
         }
     }
 }

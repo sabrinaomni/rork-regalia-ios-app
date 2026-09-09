@@ -316,6 +316,7 @@ final class RegaliaStore {
         guardPreferences = GuardPreferences()
         GuardBridge.passGrants = []
         GuardBridge.releasedTokenData = nil
+        RatingCoordinator.eraseAll(from: defaults)
         [Key.profile, Key.records, Key.usedVerses, Key.usedPrayers, Key.usedRenewals, Key.usedTemptations, Key.usedMoodVerses, Key.unlocks, Key.guardPreferences]
             .forEach { defaults.removeObject(forKey: $0) }
         ["widget.verseText", "widget.verseReference", "widget.isArmourOn", "widget.equippedCount", "widget.streak"]

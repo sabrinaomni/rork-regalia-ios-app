@@ -18,6 +18,8 @@ struct SettingsView: View {
     @State private var showReset = false
     @State private var showPaywall = false
     @State private var showManageSubscription = false
+    /// The always-available rate-and-review sheet.
+    @State private var showRatingSheet = false
     /// The legal document being read, if any.
     @State private var legalDocument: LegalDocument?
 
@@ -53,6 +55,9 @@ struct SettingsView: View {
         }
         .fullScreenCover(isPresented: $showPaywall) {
             PaywallView(context: .settings, name: store.profile.name)
+        }
+        .sheet(isPresented: $showRatingSheet) {
+            RateRegaliaSheet()
         }
         .sheet(isPresented: $showManageSubscription, onDismiss: {
             // A cancellation or plan change made in there should show here at once.
@@ -392,6 +397,26 @@ struct SettingsView: View {
     private var legalCard: some View {
         SettingsCard(title: "Support & legal") {
             VStack(spacing: 14) {
+                Button {
+                    Haptics.tap()
+                    showRatingSheet = true
+                } label: {
+                    HStack(spacing: 10) {
+                        Text("Rate Regalia")
+                            .foregroundStyle(RegaliaTheme.bone)
+                        Spacer(minLength: 8)
+                        Image(systemName: "star.fill")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundStyle(RegaliaTheme.gold.opacity(0.8))
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundStyle(RegaliaTheme.steel.opacity(0.7))
+                    }
+                    .contentShape(.rect)
+                }
+                .buttonStyle(.plain)
+                .accessibilityHint("Opens the rating card")
+                Divider().overlay(RegaliaTheme.hairline)
                 webRow("Contact support", urlString: SubscriptionLinks.support)
                 Divider().overlay(RegaliaTheme.hairline)
                 documentRow("Terms of use", document: .terms)
@@ -496,6 +521,37 @@ struct SettingsView: View {
 
     private func commitName() {
         store.updateProfile { $0.name = name }
+    }
+}
+
+/// The always-available rating card, opened from Settings — it ignores the
+/// automatic ask's lifetime caps, so anyone can rate on their own terms.
+private struct RateRegaliaSheet: View {
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                RegaliaBackground(bloomStrength: 0.12)
+
+                ScrollView {
+                    RatingAskCard(mode: .manual) {
+                        dismiss()
+                    }
+                    .padding(20)
+                }
+                .scrollIndicators(.hidden)
+            }
+            .navigationTitle("Rate Regalia")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") { dismiss() }.tint(RegaliaTheme.gold)
+                }
+            }
+            .toolbarBackground(.hidden, for: .navigationBar)
+        }
+        .preferredColorScheme(.dark)
     }
 }
 

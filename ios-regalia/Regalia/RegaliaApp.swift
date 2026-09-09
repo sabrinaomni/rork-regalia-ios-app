@@ -13,6 +13,7 @@ struct RegaliaApp: App {
     @State private var screenTime = ScreenTimeGuard()
     @State private var reminders = ReminderScheduler()
     @State private var subscriptions = SubscriptionStore()
+    @State private var ratings = RatingCoordinator()
 
     init() {
         RegaliaApp.configurePurchases()
@@ -25,6 +26,7 @@ struct RegaliaApp: App {
                 .environment(screenTime)
                 .environment(reminders)
                 .environment(subscriptions)
+                .environment(ratings)
         }
     }
 
