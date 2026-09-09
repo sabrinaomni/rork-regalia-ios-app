@@ -3,10 +3,11 @@ import SwiftUI
 
 /// Regalia's place on the App Store, used to open the review composer directly.
 nonisolated enum AppStoreReview {
-    /// Regalia's numeric App Store ID. `nil` until the app record exists on the
-    /// store — when `nil`, the card falls back to Apple's built-in rating prompt,
-    /// which needs no ID.
-    nonisolated static let appID: Int? = nil
+    /// Regalia's numeric App Store ID (Apple ID 6809547894). Four- and five-star
+    /// taps open the review composer directly through `writeReviewURL`. Kept
+    /// optional so the card still degrades to Apple's built-in rating prompt if
+    /// this is ever cleared.
+    nonisolated static let appID: Int? = 6809547894
 
     nonisolated static var writeReviewURL: URL? {
         guard let appID else { return nil }
