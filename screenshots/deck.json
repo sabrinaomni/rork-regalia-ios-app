@@ -1,0 +1,84 @@
+{
+  "appContext": {
+    "appName": "Regalia",
+    "category": "Christian daily devotional discipline with real app blocking (faith-based screen time)",
+    "summary": "Regalia is for Christians who want to pray and stand in Scripture before they start scrolling. Each morning it walks them through an eight-minute daily stand that equips the seven pieces of the armour of God from Ephesians 6, with a verse chosen from their mood and a written prayer. Until that session is done, Regalia uses Apple Screen Time to genuinely block the apps they chose to guard, showing a lock gate with a lion, a verse, and their own stated reason. It tracks streaks and keeps an archive of kept verses.",
+    "domainKeywords": [
+      "armour of God",
+      "Ephesians 6",
+      "daily stand",
+      "Scripture",
+      "verse",
+      "prayer",
+      "lion",
+      "app blocking",
+      "screen time",
+      "guarded apps",
+      "lock gate",
+      "streak",
+      "devotional",
+      "Christian",
+      "faith"
+    ],
+    "forbiddenInterpretations": [
+      "medieval fantasy game or RPG",
+      "knight combat video game",
+      "fitness or workout tracker",
+      "generic productivity to-do app",
+      "secular meditation app with no faith content",
+      "dating app",
+      "finance or budgeting app"
+    ]
+  },
+  "theme": {
+    "style": "A reverent pre-dawn world of deep midnight navy and antique gold: cathedral-quiet darkness broken by warm shafts of gilded light, like candle glow on old leather and gold leaf. Textures are soft and material — brushed metal sheen, fine grain, aged parchment warmth, faint volumetric haze — never glossy or techy. Lighting is cinematic and directional, low and still, with calm dark upper regions so headlines read like inscriptions. Backgrounds stay restrained and majestic, letting gold act as the single source of energy.",
+    "headlineFont": "font-family: 'Cormorant Garamond', serif — @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap')",
+    "headlineFontSize": 132,
+    "mockupIds": {
+      "iphone": "deep-blue",
+      "ipad": "space-gray"
+    },
+    "palette": {
+      "primary": "#0B1533",
+      "secondary": "#1C2A55",
+      "accent": "#D4A24C"
+    },
+    "layoutId": "full-bleed"
+  },
+  "slides": [
+    {
+      "label": "Title Screen",
+      "backgroundPrompt": "Cinematic abstract render of a vast midnight navy void with a single warm antique-gold bloom of light expanding softly from the lower centre, edges dissolving into deep indigo. Faint volumetric haze and drifting dust motes catch the glow, with a subtle brushed-metal sheen low in the frame and the upper third held near-black and calm for text. Delicate film grain, smooth radial falloff, deep atmospheric depth. 8K quality, ultra smooth gradients, premium feel, no text, no letters, no UI elements, no device mockups",
+      "backgroundUrl": "https://r2-pub.rork.com/app-store-screenshots/83db6270-f810-44e5-a9b6-07f50b123026.png"
+    },
+    {
+      "label": "Today Home",
+      "backgroundPrompt": "Abstract digital art of long horizontal bands of deep midnight navy and slate blue layered like still water, with a soft warm gold horizon glow bleeding in from the right edge. Gentle gradient light diffuses left across the frame, upper 30 percent darkening to near-black indigo for readability, fine grain and a whisper of mist adding depth of field at the edges. 8K quality, ultra smooth gradients, premium feel, no text, no letters, no UI elements, no device mockups",
+      "backgroundUrl": "https://r2-pub.rork.com/app-store-screenshots/a971e904-7a43-4d50-8c67-be7ea6fb5103.png"
+    },
+    {
+      "label": "Armour Session",
+      "backgroundPrompt": "Rich cinematic scene of sweeping molten gold and burnished brass arcs cutting diagonally through deep midnight blue, radiant and warmer than the surrounding darkness. Dramatic rim lighting from the lower left, translucent smoky layers overlapping with soft bokeh particles, upper region receding into calm dark navy. Subtle metallic texture and shallow depth of field on the outer edges. 8K quality, ultra smooth gradients, premium feel, no text, no letters, no UI elements, no device mockups",
+      "backgroundUrl": "https://r2-pub.rork.com/app-store-screenshots/a32aee39-ce53-4cff-9e2f-4230e0a3faa8.png"
+    },
+    {
+      "label": "The Guard",
+      "backgroundPrompt": "Layered planes of frosted dark glass and cool steel-blue shards stacked at steep vertical angles over a deep midnight navy base, each edge catching a thin restrained line of pale gold light. Cold directional lighting from the top-right, deep shadows between layers creating architectural depth, upper portion fading to near-black. Matte grain, minimal glow, quiet authority. 8K quality, ultra smooth gradients, premium feel, no text, no letters, no UI elements, no device mockups",
+      "backgroundUrl": "https://r2-pub.rork.com/app-store-screenshots/046040ee-4290-44ab-be6b-755bd2810b13.png"
+    },
+    {
+      "label": "Lock Gate",
+      "backgroundPrompt": "Near-black midnight blue expanse with one narrow focused shaft of warm antique-gold light descending from above and pooling in the lower centre, everything else swallowed in deep shadow. Heavy volumetric haze in the beam, faint dust particles suspended, a barely visible cool indigo gradient at the far edges, upper frame almost entirely black and calm. Fine grain, dramatic chiaroscuro depth. 8K quality, ultra smooth gradients, premium feel, no text, no letters, no UI elements, no device mockups",
+      "backgroundUrl": "https://r2-pub.rork.com/app-store-screenshots/f2370f72-72c0-408e-92f2-f68203247757.png"
+    }
+  ],
+  "headlines": {
+    "en": {
+      "Title Screen": "Stand<br>Before You Scroll",
+      "Today Home": "Your Morning<br>Home Base",
+      "Armour Session": "Eight Minutes<br>Fully Equipped",
+      "The Guard": "You Choose<br>What Stays Shut",
+      "Lock Gate": "Stopped<br>On Purpose"
+    }
+  }
+}
