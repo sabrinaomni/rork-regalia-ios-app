@@ -127,10 +127,6 @@ struct GuardView: View {
                     .buttonStyle(.plain)
                 }
 
-                Text("These tiles let you walk the whole flow on any device, including the simulator, while the real Screen Time block waits on Apple's approval.")
-                    .font(.caption)
-                    .foregroundStyle(RegaliaTheme.steelBright)
-                    .fixedSize(horizontal: false, vertical: true)
             }
             .font(.system(size: 16))
         }
