@@ -1,3 +1,4 @@
+import FamilyControls
 import SwiftUI
 
 /// The Today tab: mascot greeting, mood check-in, today's Scripture, armour progress.
@@ -8,13 +9,16 @@ struct TodayView: View {
     /// Opens the session from the root cover, shared with the tab bar's gold circle.
     let onOpenSession: () -> Void
 
-    @State private var lockedApp: GuardedApp?
+    @State private var lockedTarget: LockTarget?
     @State private var pendingSessionFromLock = false
     @State private var greetingAppeared = false
+    /// True while a finger is on the screen or the scroll is settling. The ambient
+    /// animations hold still during that window so they can't judder the bounce.
+    @State private var isScrolling = false
 
     var body: some View {
         ZStack {
-            RegaliaBackground()
+            RegaliaBackground(paused: isScrolling)
 
             ScrollView {
                 VStack(alignment: .leading, spacing: RegaliaLayout.sectionStack) {
@@ -30,19 +34,27 @@ struct TodayView: View {
                 .padding(.bottom, RegaliaLayout.tabbedScrollBottom)
             }
             .scrollIndicators(.hidden)
+            .onScrollPhaseChange { _, newPhase in
+                let scrolling = newPhase.isScrolling
+                guard scrolling != isScrolling else { return }
+                isScrolling = scrolling
+            }
         }
-        .fullScreenCover(item: $lockedApp, onDismiss: {
+        .fullScreenCover(item: $lockedTarget, onDismiss: {
             guard pendingSessionFromLock else { return }
             pendingSessionFromLock = false
             onOpenSession()
-        }) { app in
-            LockGateView(app: app) {
+        }) { target in
+            LockGateView(target: target) {
                 pendingSessionFromLock = true
-                lockedApp = nil
+                lockedTarget = nil
+            } onClose: {
+                lockedTarget = nil
             }
         }
         .onAppear {
             store.refreshForNewDayIfNeeded()
+            guard !greetingAppeared else { return }
             withAnimation(.easeOut(duration: 0.6)) { greetingAppeared = true }
         }
         .task {
@@ -56,8 +68,31 @@ struct TodayView: View {
         guard store.wantsSessionAfterOnboarding else { return }
         store.wantsSessionAfterOnboarding = false
         try? await Task.sleep(for: .milliseconds(520))
-        guard lockedApp == nil else { return }
+        guard lockedTarget == nil else { return }
         onOpenSession()
+    }
+
+    /// What the guarded row shows. Once someone has picked real apps in Screen
+    /// Time, those are the truth of what's blocked — and only the system can draw
+    /// their icons. The curated tiles stand in until then.
+    private var lockTargets: [LockTarget] {
+        let tokens = screenTime.selection.applicationTokens
+        guard tokens.isEmpty else {
+            return tokens.map { LockTarget(token: $0) }
+        }
+        return store.profile.guardedApps.map { LockTarget(app: $0) }
+    }
+
+    /// Whether a real, Screen Time-chosen app is shut right now.
+    private var isRealAppLocked: Bool {
+        !store.isArmourComplete && !store.isTemporarilyUnlocked
+    }
+
+    private func isLocked(_ target: LockTarget) -> Bool {
+        switch target.source {
+        case .screenTime: isRealAppLocked
+        case .preview(let app): store.isGuarded(app)
+        }
     }
 
     // MARK: - Sections
@@ -83,7 +118,10 @@ struct TodayView: View {
     }
 
     private var mascotPanel: some View {
-        MascotView(stage: MascotStage.stage(forEquippedCount: store.today.equippedCount))
+        MascotView(
+            stage: MascotStage.stage(forEquippedCount: store.today.equippedCount),
+            paused: isScrolling
+        )
             .mascotStage(height: RegaliaLayout.heroArt)
             .animation(.spring(response: 0.6, dampingFraction: 0.7), value: store.today.equippedCount)
     }
@@ -172,8 +210,8 @@ struct TodayView: View {
 
     @ViewBuilder
     private var guardedSection: some View {
-        let apps = store.profile.guardedApps
-        if !apps.isEmpty {
+        let targets = lockTargets
+        if !targets.isEmpty {
             VStack(alignment: .leading, spacing: RegaliaLayout.cardStack) {
                 HStack {
                     Text("Guarded until you're armoured")
@@ -189,15 +227,14 @@ struct TodayView: View {
 
                 ScrollView(.horizontal) {
                     HStack(spacing: 12) {
-                        ForEach(apps) { app in
+                        ForEach(targets) { target in
                             Button {
                                 Haptics.tap()
-                                if store.isGuarded(app) {
-                                    Haptics.warn()
-                                    lockedApp = app
-                                }
+                                guard isLocked(target) else { return }
+                                Haptics.warn()
+                                lockedTarget = target
                             } label: {
-                                GuardedAppTile(app: app, isLocked: store.isGuarded(app))
+                                GuardedAppTile(target: target, isLocked: isLocked(target))
                             }
                             .buttonStyle(.plain)
                         }
@@ -283,24 +320,26 @@ struct TodayView: View {
 }
 
 /// A guarded app shown as a locked or released tile.
+///
+/// A real Screen Time app draws its own icon and name through `Label(token)` —
+/// that artwork belongs to the app it came from and can't be bundled here, so the
+/// system renders it. Regalia's curated tiles fall back to an SF Symbol.
 private struct GuardedAppTile: View {
-    let app: GuardedApp
+    let target: LockTarget
     let isLocked: Bool
 
     var body: some View {
         VStack(spacing: 8) {
             ZStack {
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .fill(app.tint.opacity(isLocked ? 0.16 : 0.24))
+                    .fill(target.tint.opacity(isLocked ? 0.16 : 0.24))
                     .frame(width: 56, height: 56)
                     .overlay(
                         RoundedRectangle(cornerRadius: 16, style: .continuous)
-                            .stroke(app.tint.opacity(isLocked ? 0.4 : 0.7), lineWidth: 1)
+                            .stroke(target.tint.opacity(isLocked ? 0.4 : 0.7), lineWidth: 1)
                     )
 
-                Image(systemName: app.symbol)
-                    .font(.system(size: 22, weight: .medium))
-                    .foregroundStyle(app.tint.opacity(isLocked ? 0.55 : 1))
+                mark
 
                 if isLocked {
                     Image(systemName: "lock.fill")
@@ -313,11 +352,41 @@ private struct GuardedAppTile: View {
             }
             .saturation(isLocked ? 0.5 : 1)
 
+            name
+        }
+        .frame(width: 68)
+    }
+
+    @ViewBuilder
+    private var mark: some View {
+        switch target.source {
+        case .screenTime(let token):
+            Label(token)
+                .labelStyle(.iconOnly)
+                .scaleEffect(1.5)
+                .clipShape(.rect(cornerRadius: 12, style: .continuous))
+                .opacity(isLocked ? 0.75 : 1)
+        case .preview(let app):
+            Image(systemName: app.symbol)
+                .font(.system(size: 22, weight: .medium))
+                .foregroundStyle(app.tint.opacity(isLocked ? 0.55 : 1))
+        }
+    }
+
+    @ViewBuilder
+    private var name: some View {
+        switch target.source {
+        case .screenTime(let token):
+            Label(token)
+                .labelStyle(.titleOnly)
+                .font(.caption2)
+                .foregroundStyle(RegaliaTheme.steelBright)
+                .lineLimit(1)
+        case .preview(let app):
             Text(app.name)
                 .font(.caption2)
                 .foregroundStyle(RegaliaTheme.steelBright)
                 .lineLimit(1)
         }
-        .frame(width: 68)
     }
 }

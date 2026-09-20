@@ -55,6 +55,9 @@ struct RatingAskCard: View {
         }
         .animation(.spring(response: 0.45, dampingFraction: 0.8), value: isThanking)
         .onAppear {
+            // Fill the stars back in from what was chosen last time, so reopening
+            // the card never looks as though the rating never happened.
+            rating = ratings.selectedRating
             if mode == .celebration {
                 ratings.markAsked()
             }
@@ -87,7 +90,9 @@ struct RatingAskCard: View {
                 Text(mode == .celebration ? "You stood today." : "Rate Regalia")
                     .font(.system(size: 20, weight: .bold, design: .rounded))
                     .foregroundStyle(RegaliaTheme.bone)
-                Text("Was it worth it? Tell the App Store.")
+                Text(ratings.hasRated
+                     ? "You've already rated Regalia. Thank you."
+                     : "Was it worth it? Tell the App Store.")
                     .font(.footnote)
                     .foregroundStyle(RegaliaTheme.steelBright)
             }
@@ -148,6 +153,7 @@ struct RatingAskCard: View {
     private func select(count: Int) {
         guard rating != count else { return }
         Haptics.tap()
+        ratings.recordRating(count)
         withAnimation(.spring(response: 0.32, dampingFraction: 0.6)) {
             rating = count
             poppedStar = count

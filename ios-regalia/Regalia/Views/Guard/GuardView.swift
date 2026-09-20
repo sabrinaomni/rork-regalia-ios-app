@@ -33,7 +33,11 @@ struct GuardView: View {
             GuardedAppsEditor()
         }
         .fullScreenCover(item: $previewApp) { app in
-            LockGateView(app: app) { previewApp = nil }
+            LockGateView(target: LockTarget(app: app)) {
+                previewApp = nil
+            } onClose: {
+                previewApp = nil
+            }
         }
         .onAppear {
             bedtime = store.guardPreferences.bedtimeDate
@@ -154,6 +158,12 @@ private struct GuardedAppsEditor: View {
     @Environment(RegaliaStore.self) private var store
     @Environment(\.dismiss) private var dismiss
 
+    /// True once every tile in the catalog is chosen, which turns the control
+    /// into Deselect all.
+    private var isEverythingSelected: Bool {
+        store.profile.guardedAppIDs.count >= GuardedApp.catalog.count
+    }
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -161,6 +171,8 @@ private struct GuardedAppsEditor: View {
 
                 ScrollView {
                     VStack(spacing: RegaliaLayout.rowStack) {
+                        selectAllRow
+
                         ForEach(GuardedApp.catalog) { app in
                             RegaliaSelectRow(
                                 title: app.name,
@@ -190,6 +202,46 @@ private struct GuardedAppsEditor: View {
                 }
             }
             .toolbarBackground(.hidden, for: .navigationBar)
+        }
+    }
+
+    /// One tap takes every tile, or gives them all back.
+    private var selectAllRow: some View {
+        HStack(spacing: 10) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(isEverythingSelected ? "Deselect all" : "Select all")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(RegaliaTheme.bone)
+                Text("\(store.profile.guardedAppIDs.count) of \(GuardedApp.catalog.count) chosen")
+                    .font(.caption)
+                    .foregroundStyle(RegaliaTheme.steelBright)
+            }
+
+            Spacer(minLength: 8)
+
+            Image(systemName: isEverythingSelected ? "xmark.circle.fill" : "checkmark.circle.fill")
+                .font(.system(size: 20, weight: .semibold))
+                .foregroundStyle(RegaliaTheme.gold)
+        }
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
+        .contentShape(.rect)
+        .regaliaCard(highlighted: true)
+        .onTapGesture { toggleAll() }
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityLabel(isEverythingSelected ? "Deselect all apps" : "Select all apps")
+    }
+
+    private func toggleAll() {
+        Haptics.tap()
+        let selectAll = !isEverythingSelected
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+            store.updateProfile { profile in
+                profile.guardedAppIDs = selectAll
+                    ? Set(GuardedApp.catalog.map(\.id))
+                    : []
+            }
         }
     }
 }

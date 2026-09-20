@@ -1,3 +1,4 @@
+import FamilyControls
 import SwiftUI
 
 /// The gate shown when a guarded app is opened before the armour is on.
@@ -5,10 +6,15 @@ struct LockGateView: View {
     @Environment(RegaliaStore.self) private var store
     @Environment(ScreenTimeGuard.self) private var screenTime
     @Environment(ReminderScheduler.self) private var reminders
-    @Environment(\.dismiss) private var dismiss
 
-    let app: GuardedApp
+    let target: LockTarget
     let onBeginSession: () -> Void
+    /// Closing is handed back to whoever presented the cover.
+    ///
+    /// `@Environment(\.dismiss)` is unreliable here: this view is presented as a
+    /// `fullScreenCover(item:)` from two different screens, and clearing the item
+    /// binding at the source is the only dismissal that holds on device.
+    let onClose: () -> Void
 
     @State private var appeared = false
 
@@ -21,12 +27,23 @@ struct LockGateView: View {
                     mascotGate
                         .padding(.top, 8)
 
-                    Text("\(app.name) is locked")
-                        .font(.system(size: 30, weight: .bold, design: .rounded))
-                        .foregroundStyle(RegaliaTheme.bone)
-                        .multilineTextAlignment(.center)
-                        .minimumScaleFactor(0.7)
-                        .lineLimit(2)
+                    VStack(spacing: 8) {
+                        Text(target.title)
+                            .font(.system(size: 30, weight: .bold, design: .rounded))
+                            .foregroundStyle(RegaliaTheme.bone)
+                            .multilineTextAlignment(.center)
+                            .minimumScaleFactor(0.7)
+                            .lineLimit(2)
+
+                        // Only the system can name a real app, so its own label
+                        // carries the name here.
+                        if let token = target.token {
+                            Label(token)
+                                .labelStyle(.titleOnly)
+                                .font(.system(size: 17, weight: .semibold))
+                                .foregroundStyle(RegaliaTheme.gold)
+                        }
+                    }
 
                     if let verse = store.today.temptationVerse ?? ScriptureLibrary.temptation.first {
                         VerseCard(verse: verse)
@@ -56,13 +73,17 @@ struct LockGateView: View {
                 HStack {
                     Button {
                         Haptics.tap()
-                        dismiss()
+                        onClose()
                     } label: {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 15, weight: .bold))
                             .foregroundStyle(RegaliaTheme.bone.opacity(0.9))
                             .frame(width: 36, height: 36)
                             .regaliaGlass(in: Circle())
+                            // The glass circle stays 36pt, but the tap target
+                            // reaches Apple's 44pt minimum.
+                            .frame(width: 44, height: 44)
+                            .contentShape(.rect)
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel("Back")
@@ -83,16 +104,14 @@ struct LockGateView: View {
     private var mascotGate: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 44, style: .continuous)
-                .fill(app.tint.opacity(0.14))
+                .fill(target.tint.opacity(0.14))
                 .overlay(
                     RoundedRectangle(cornerRadius: 44, style: .continuous)
-                        .stroke(app.tint.opacity(0.35), lineWidth: 1)
+                        .stroke(target.tint.opacity(0.35), lineWidth: 1)
                 )
                 .frame(width: 200, height: 240)
                 .overlay {
-                    Image(systemName: app.symbol)
-                        .font(.system(size: 96, weight: .medium))
-                        .foregroundStyle(app.tint.opacity(0.35))
+                    plateMark
                         .allowsHitTesting(false)
                 }
                 .blur(radius: 1.5)
@@ -106,6 +125,21 @@ struct LockGateView: View {
             .mascotStage(height: RegaliaLayout.lockArt)
         }
         .frame(height: RegaliaLayout.lockArt)
+    }
+
+    /// The real app's own icon when Screen Time can draw it, the curated symbol otherwise.
+    @ViewBuilder
+    private var plateMark: some View {
+        if let token = target.token {
+            Label(token)
+                .labelStyle(.iconOnly)
+                .scaleEffect(2.6)
+                .opacity(0.5)
+        } else {
+            Image(systemName: target.symbol)
+                .font(.system(size: 96, weight: .medium))
+                .foregroundStyle(target.tint.opacity(0.35))
+        }
     }
 
     private var actions: some View {
@@ -122,7 +156,7 @@ struct LockGateView: View {
                 guard store.spendUnlockPass() else { return }
                 screenTime.releaseForPass()
                 reminders.schedulePassEndNote(in: GuardBridge.passMinutes)
-                dismiss()
+                onClose()
             } label: {
                 Text(unlockLabel)
                     .font(.footnote)

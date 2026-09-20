@@ -4,12 +4,15 @@ import SwiftUI
 struct RegaliaBackground: View {
     var tint: Color = RegaliaTheme.gold
     var bloomStrength: Double = 0.22
+    /// Held still while a scroll view is being dragged, so the ambient drift can't
+    /// fight the rubber-band bounce and read as a shake.
+    var paused: Bool = false
 
     var body: some View {
         ZStack {
             RegaliaTheme.canvas
 
-            TimelineView(.animation(minimumInterval: 1.0 / 20.0, paused: false)) { context in
+            TimelineView(.animation(minimumInterval: 1.0 / 20.0, paused: paused)) { context in
                 let t = context.date.timeIntervalSinceReferenceDate
                 RadialGradient(
                     colors: [tint.opacity(bloomStrength), .clear],

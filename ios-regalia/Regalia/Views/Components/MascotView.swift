@@ -35,6 +35,9 @@ struct MascotView: View {
     var glow: Color = RegaliaTheme.gold
     var showEmbers: Bool = true
     var intensity: Double = 1
+    /// Held still while a scroll view is being dragged, so the float and embers
+    /// can't fight the rubber-band bounce and read as a shake.
+    var paused: Bool = false
 
     @State private var breathe = false
     @State private var appeared = false
@@ -44,7 +47,7 @@ struct MascotView: View {
             let size = proxy.size
             let span = min(size.width, size.height)
 
-            TimelineView(.animation(minimumInterval: 1.0 / 30.0, paused: false)) { context in
+            TimelineView(.animation(minimumInterval: 1.0 / 30.0, paused: paused)) { context in
                 let t = context.date.timeIntervalSinceReferenceDate
 
                 ZStack {

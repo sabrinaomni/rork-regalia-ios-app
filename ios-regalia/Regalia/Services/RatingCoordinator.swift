@@ -10,6 +10,9 @@ final class RatingCoordinator {
     private(set) var lastAskDate: Date?
     private(set) var hasRated: Bool
     private(set) var hasSentFeedback: Bool
+    /// The star count last chosen, kept so reopening the card shows it filled in
+    /// rather than starting from five empty stars. `nil` means never rated.
+    private(set) var selectedRating: Int?
 
     /// The earned moments a dismissal can be followed up on, as streak counts.
     nonisolated static let milestoneStreaks: Set<Int> = [3, 7, 30]
@@ -22,6 +25,7 @@ final class RatingCoordinator {
         static let lastAskDate = "regalia.rating.lastAskDate"
         static let hasRated = "regalia.rating.hasRated"
         static let hasSentFeedback = "regalia.rating.hasSentFeedback"
+        static let selectedRating = "regalia.rating.selectedRating"
     }
 
     init(defaults: UserDefaults = .standard) {
@@ -30,6 +34,8 @@ final class RatingCoordinator {
         lastAskDate = defaults.object(forKey: Key.lastAskDate) as? Date
         hasRated = defaults.bool(forKey: Key.hasRated)
         hasSentFeedback = defaults.bool(forKey: Key.hasSentFeedback)
+        let storedRating = defaults.integer(forKey: Key.selectedRating)
+        selectedRating = (1...5).contains(storedRating) ? storedRating : nil
     }
 
     /// True once no automatic ask should ever be raised again.
@@ -60,6 +66,13 @@ final class RatingCoordinator {
         persist()
     }
 
+    /// Remembers the stars as they're chosen, before any path is taken.
+    func recordRating(_ count: Int) {
+        guard (1...5).contains(count) else { return }
+        selectedRating = count
+        persist()
+    }
+
     func markRated() {
         hasRated = true
         persist()
@@ -72,7 +85,7 @@ final class RatingCoordinator {
 
     /// Clears the memory when the person erases their walk from Settings.
     nonisolated static func eraseAll(from defaults: UserDefaults) {
-        [Key.askCount, Key.lastAskDate, Key.hasRated, Key.hasSentFeedback]
+        [Key.askCount, Key.lastAskDate, Key.hasRated, Key.hasSentFeedback, Key.selectedRating]
             .forEach { defaults.removeObject(forKey: $0) }
     }
 
@@ -81,5 +94,10 @@ final class RatingCoordinator {
         defaults.set(lastAskDate, forKey: Key.lastAskDate)
         defaults.set(hasRated, forKey: Key.hasRated)
         defaults.set(hasSentFeedback, forKey: Key.hasSentFeedback)
+        if let selectedRating {
+            defaults.set(selectedRating, forKey: Key.selectedRating)
+        } else {
+            defaults.removeObject(forKey: Key.selectedRating)
+        }
     }
 }
