@@ -17,7 +17,9 @@ nonisolated final class ShieldActionExtension: ShieldActionDelegate {
         case .primaryButtonPressed:
             completionHandler(.close)
         case .secondaryButtonPressed:
-            completionHandler(grantPass(for: application) ? .close : .none)
+            // `.defer` keeps the shield up and redraws it, so the button re-reads
+            // "No passes left this week" instead of silently swallowing the tap.
+            completionHandler(grantPass(for: application) ? .close : .defer)
         @unknown default:
             completionHandler(.close)
         }
@@ -43,13 +45,12 @@ nonisolated final class ShieldActionExtension: ShieldActionDelegate {
     private func grantPass(for application: ApplicationToken) -> Bool {
         guard GuardBridge.spendPass() else { return false }
 
+        // Any app still out on a previous pass goes back behind the guard first.
         GuardBridge.reclaimReleasedApplication()
 
-        let store = GuardBridge.store
-        var shielded = store.shield.applications ?? []
-        shielded.remove(application)
-        store.shield.applications = shielded
-        GuardBridge.releaseApplication(application)
+        // Clears the app token *and* any category rule covering it, so the app
+        // actually opens instead of being re-shielded by its category.
+        GuardBridge.exemptApplication(application)
 
         startPassWindow(for: application)
         return true

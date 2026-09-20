@@ -285,7 +285,9 @@ final class RegaliaStore {
 
     /// Mirrors everything the Screen Time extensions need into the App Group.
     func mirrorGuardState() {
-        GuardBridge.isArmourOn = today.isComplete
+        // An active unlock pass counts as "open" for the extensions too, so the
+        // shield doesn't contradict a pass the user just spent.
+        GuardBridge.isArmourOn = today.isComplete || isTemporarilyUnlocked
         GuardBridge.armourCount = today.equippedCount
         GuardBridge.headline = guardHeadline
         GuardBridge.wantsPassExpiryNote = guardPreferences.passExpiryNote

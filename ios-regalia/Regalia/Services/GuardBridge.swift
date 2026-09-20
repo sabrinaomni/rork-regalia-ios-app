@@ -29,6 +29,7 @@ nonisolated enum GuardBridge {
         static let passStartedAt = "guard.passStartedAt"
         static let realBlockingOn = "guard.realBlockingOn"
         static let passExpiryNote = "guard.passExpiryNote"
+        static let guardEnabled = "guard.enabled"
     }
 
     static var defaults: UserDefaults {
@@ -77,6 +78,12 @@ nonisolated enum GuardBridge {
     static var wantsPassExpiryNote: Bool {
         get { defaults.object(forKey: Key.passExpiryNote) as? Bool ?? true }
         set { defaults.set(newValue, forKey: Key.passExpiryNote) }
+    }
+
+    /// The user's master switch for the OS shield. On unless they turn it off.
+    static var isGuardEnabled: Bool {
+        get { defaults.object(forKey: Key.guardEnabled) as? Bool ?? true }
+        set { defaults.set(newValue, forKey: Key.guardEnabled) }
     }
 
     // MARK: - Unlock passes
@@ -134,14 +141,69 @@ nonisolated enum GuardBridge {
         return try? JSONDecoder().decode(ApplicationToken.self, from: data)
     }
 
+    /// Lifts the shield from a single app for the length of a pass.
+    ///
+    /// Removing the app token alone isn't enough: a category rule ("Social") outranks
+    /// it and keeps the app shut, which is why spending a pass looked like it did
+    /// nothing. The app is added to the category policy's exception list too.
+    static func exemptApplication(_ token: ApplicationToken) {
+        let settings = store
+        var shielded = settings.shield.applications ?? []
+        shielded.remove(token)
+        settings.shield.applications = shielded.isEmpty ? nil : shielded
+        settings.shield.applicationCategories = categoryPolicy(
+            settings.shield.applicationCategories,
+            exempting: token
+        )
+        releaseApplication(token)
+    }
+
     /// Puts the released app back behind the shield and clears the pass.
     static func reclaimReleasedApplication() {
+        let settings = store
         if let token = releasedApplication {
-            var shielded = store.shield.applications ?? []
+            var shielded = settings.shield.applications ?? []
             shielded.insert(token)
-            store.shield.applications = shielded
+            settings.shield.applications = shielded
+            settings.shield.applicationCategories = categoryPolicy(
+                settings.shield.applicationCategories,
+                reclaiming: token
+            )
         }
         releasedTokenData = nil
         defaults.removeObject(forKey: Key.passStartedAt)
+    }
+
+    /// Adds the app to the category policy's exception list, so a category rule
+    /// stops covering it while its pass is burning down.
+    private static func categoryPolicy(
+        _ current: ShieldSettings.ActivityCategoryPolicy<Application>?,
+        exempting token: ApplicationToken
+    ) -> ShieldSettings.ActivityCategoryPolicy<Application>? {
+        guard let current else { return nil }
+        switch current {
+        case .all(let except):
+            return .all(except: except.union([token]))
+        case .specific(let categories, let except):
+            return .specific(categories, except: except.union([token]))
+        default:
+            return current
+        }
+    }
+
+    /// Drops the app back out of the exception list once the pass is spent.
+    private static func categoryPolicy(
+        _ current: ShieldSettings.ActivityCategoryPolicy<Application>?,
+        reclaiming token: ApplicationToken
+    ) -> ShieldSettings.ActivityCategoryPolicy<Application>? {
+        guard let current else { return nil }
+        switch current {
+        case .all(let except):
+            return .all(except: except.subtracting([token]))
+        case .specific(let categories, let except):
+            return .specific(categories, except: except.subtracting([token]))
+        default:
+            return current
+        }
     }
 }

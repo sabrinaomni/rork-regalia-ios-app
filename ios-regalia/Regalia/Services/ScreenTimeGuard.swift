@@ -22,20 +22,45 @@ final class ScreenTimeGuard {
         case idle
         /// Authorized with a selection — the shield is real.
         case live
+        /// Authorized with a selection, but the user switched the guard off.
+        case off
     }
 
     private(set) var mode: Mode = .preview
     private(set) var lastError: String?
 
     /// The apps, categories, and websites picked through Apple's own picker.
+    ///
+    /// Changing the selection re-applies the shield immediately, so adding an app
+    /// locks it on the spot and removing one lets it open again straight away.
     var selection: FamilyActivitySelection {
-        didSet { persistSelection() }
+        didSet {
+            guard selection != oldValue else { return }
+            persistSelection()
+            applyCurrentState()
+        }
     }
+
+    /// The user's master switch for real blocking. Off lifts every shield at once.
+    var isGuardEnabled: Bool {
+        didSet {
+            guard isGuardEnabled != oldValue else { return }
+            GuardBridge.isGuardEnabled = isGuardEnabled
+            refreshMode()
+            applyCurrentState()
+        }
+    }
+
+    /// Today's state, remembered so a selection change can re-shield without the
+    /// view layer having to pass it in again.
+    private var isArmourOn = false
+    private var bedtimeMinutes = 22 * 60
 
     private let center = AuthorizationCenter.shared
 
     init() {
         selection = ScreenTimeGuard.loadSelection()
+        isGuardEnabled = GuardBridge.isGuardEnabled
         refreshMode()
     }
 
@@ -43,7 +68,7 @@ final class ScreenTimeGuard {
 
     var isAuthorized: Bool {
         if case .denied = mode { return false }
-        return mode == .live || mode == .idle
+        return mode == .live || mode == .idle || mode == .off
     }
 
     var isLive: Bool { mode == .live }
@@ -57,6 +82,7 @@ final class ScreenTimeGuard {
     var statusTitle: String {
         switch mode {
         case .live: "Blocking is live on this iPhone"
+        case .off: "The guard is switched off"
         case .idle: "Screen Time is on — nothing chosen yet"
         case .denied: "Screen Time permission is off"
         case .preview: "Preview mode"
@@ -67,6 +93,8 @@ final class ScreenTimeGuard {
         switch mode {
         case .live:
             "\(selectionCount) item\(selectionCount == 1 ? "" : "s") stay shut until today's armour is on."
+        case .off:
+            "\(selectionCount) item\(selectionCount == 1 ? "" : "s") chosen, but nothing is locked while the guard is off."
         case .idle:
             "Choose the apps, categories, or sites you want locked."
         case .denied(let reason):
@@ -81,7 +109,11 @@ final class ScreenTimeGuard {
     func refreshMode() {
         switch center.authorizationStatus {
         case .approved:
-            mode = selectionCount > 0 ? .live : .idle
+            if selectionCount == 0 {
+                mode = .idle
+            } else {
+                mode = isGuardEnabled ? .live : .off
+            }
         case .denied:
             mode = .denied("Allow Regalia in Settings → Screen Time to lock apps for real.")
         case .notDetermined:
@@ -113,20 +145,31 @@ final class ScreenTimeGuard {
     ///   - isArmourOn: whether today's session is finished.
     ///   - bedtimeMinutes: when the guard should close again tonight.
     func reconcile(isArmourOn: Bool, bedtimeMinutes: Int) {
+        self.isArmourOn = isArmourOn
+        self.bedtimeMinutes = bedtimeMinutes
         GuardBridge.realBlockingOn = isLive
         guard isAuthorized else { return }
 
-        if isArmourOn {
+        applyCurrentState()
+        scheduleBedtimeRelock(bedtimeMinutes: bedtimeMinutes)
+    }
+
+    /// Re-applies the shield from the state already known, so a selection change or
+    /// the on/off switch takes effect the moment it happens rather than on next launch.
+    private func applyCurrentState() {
+        GuardBridge.realBlockingOn = isLive
+        guard isAuthorized else { return }
+
+        if isArmourOn || !isGuardEnabled {
             releaseEverything()
         } else {
             applyShield()
         }
-        scheduleBedtimeRelock(bedtimeMinutes: bedtimeMinutes)
     }
 
     /// Locks every selected app, category, and website.
     func applyShield() {
-        guard isAuthorized else { return }
+        guard isAuthorized, isGuardEnabled else { return }
         let store = GuardBridge.store
         store.shield.applications = selection.applicationTokens.isEmpty ? nil : selection.applicationTokens
         store.shield.applicationCategories = selection.categoryTokens.isEmpty
@@ -184,6 +227,14 @@ final class ScreenTimeGuard {
         refreshMode()
     }
 
+    /// Called when the picker closes, so a brand-new selection is shielded at once
+    /// even on the first run where authorization only just landed.
+    func applyAfterSelectionChange() {
+        refreshMode()
+        applyCurrentState()
+        scheduleBedtimeRelock(bedtimeMinutes: bedtimeMinutes)
+    }
+
     private static func loadSelection() -> FamilyActivitySelection {
         guard let data = GuardBridge.defaults.data(forKey: "guard.selection"),
               let decoded = try? JSONDecoder().decode(FamilyActivitySelection.self, from: data) else {
@@ -194,6 +245,8 @@ final class ScreenTimeGuard {
 
     func forget() {
         selection = FamilyActivitySelection()
+        isGuardEnabled = true
+        GuardBridge.isGuardEnabled = true
         releaseEverything()
         DeviceActivityCenter().stopMonitoring([GuardActivity.bedtime, GuardActivity.pass])
         refreshMode()

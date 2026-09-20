@@ -12,6 +12,8 @@ struct OnboardingView: View {
     @State private var piecesRevealed = false
     @State private var proofFactsRevealed = false
     @State private var draft = OnboardingProfile()
+    /// True while the last move was backwards, so the paywall doesn't auto-skip.
+    @State private var isSteppingBack = false
     @State private var time: Date = Calendar.current.date(bySettingHour: 7, minute: 0, second: 0, of: Date()) ?? Date()
     @FocusState private var nameFocused: Bool
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -34,8 +36,12 @@ struct OnboardingView: View {
                 )
                 .transition(.opacity)
                 .task {
-                    // A restored subscriber never has to see the plans again.
-                    if subscriptions.hasAccess { advance() }
+                    // A restored subscriber never has to see the plans again — but only
+                    // when they arrived moving forwards. Skipping on a backwards step
+                    // would bounce them straight back to the screen they just left,
+                    // which is what made the back arrow look dead.
+                    guard !isSteppingBack, subscriptions.hasAccess else { return }
+                    advance()
                 }
             } else {
                 flow
@@ -600,13 +606,23 @@ struct OnboardingView: View {
     private func retreat() {
         Haptics.tap()
         nameFocused = false
+        isSteppingBack = true
         withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) {
-            stepIndex = max(stepIndex - 1, 0)
+            stepIndex = previousStepIndex
         }
+    }
+
+    /// The step to land on when stepping back. Someone who already has access steps
+    /// straight past the plans rather than stalling on a screen that skips itself.
+    private var previousStepIndex: Int {
+        let candidate = max(stepIndex - 1, 0)
+        guard steps[candidate] == .paywall, subscriptions.hasAccess else { return candidate }
+        return max(candidate - 1, 0)
     }
 
     private func advance() {
         nameFocused = false
+        isSteppingBack = false
         guard stepIndex < steps.count - 1 else {
             finish()
             return

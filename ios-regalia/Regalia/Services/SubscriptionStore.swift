@@ -187,29 +187,42 @@ final class SubscriptionStore {
         }
     }
 
+    /// Loads the plans, retrying quietly a couple of times before showing a failure.
+    /// The store often isn't ready in the first instant after launch, and a bare
+    /// failure there reads as a fault rather than a slow start.
     func refreshOfferings() async {
         guard Purchases.isConfigured else {
             loadState = .failed("Subscriptions aren't configured in this build.")
             return
         }
         loadState = .loading
-        do {
-            let offerings = try await Purchases.shared.offerings()
-            guard let current = offerings.current else {
-                loadState = .failed("No subscription plans are available right now.")
+
+        let maxAttempts = 3
+        for attempt in 1...maxAttempts {
+            do {
+                let offerings = try await Purchases.shared.offerings()
+                guard let current = offerings.current else {
+                    loadState = .failed("No subscription plans are available right now.")
+                    return
+                }
+                annualPackage = current.annual ?? current.availablePackages.first { $0.packageType == .annual }
+                monthlyPackage = current.monthly ?? current.availablePackages.first { $0.packageType == .monthly }
+                guard annualPackage != nil || monthlyPackage != nil else {
+                    loadState = .failed("No subscription plans are available right now.")
+                    return
+                }
+                selectedPlan = annualPackage != nil ? .annual : .monthly
+                loadState = .loaded
                 return
+            } catch {
+                print("[Subscriptions] offerings attempt \(attempt) failed: \(error.localizedDescription)")
+                if attempt < maxAttempts {
+                    try? await Task.sleep(for: .seconds(Double(attempt)))
+                    guard loadState == .loading else { return }
+                } else {
+                    loadState = .failed("We couldn't reach the store. Check your connection and try again.")
+                }
             }
-            annualPackage = current.annual ?? current.availablePackages.first { $0.packageType == .annual }
-            monthlyPackage = current.monthly ?? current.availablePackages.first { $0.packageType == .monthly }
-            guard annualPackage != nil || monthlyPackage != nil else {
-                loadState = .failed("No subscription plans are available right now.")
-                return
-            }
-            selectedPlan = annualPackage != nil ? .annual : .monthly
-            loadState = .loaded
-        } catch {
-            print("[Subscriptions] offerings failed: \(error.localizedDescription)")
-            loadState = .failed("We couldn't reach the store. Check your connection and try again.")
         }
     }
 
@@ -237,6 +250,13 @@ final class SubscriptionStore {
             // Cancelled at the StoreKit sheet — not an error.
         } catch ErrorCode.paymentPendingError {
             // Awaiting parental approval or extra authentication — not a failure.
+        } catch ErrorCode.productAlreadyPurchasedError {
+            // Fresh install of an Apple Account that already owns Regalia. This is a
+            // normal response, not a fault — confirm the entitlement and let them in.
+            await refreshStatus()
+            if !isSubscribed {
+                await restoreSilently()
+            }
         } catch {
             print("[Subscriptions] purchase failed: \(error.localizedDescription)")
             errorMessage = error.localizedDescription
@@ -258,6 +278,16 @@ final class SubscriptionStore {
             errorMessage = error.localizedDescription
         }
         isRestoring = false
+    }
+
+    /// Restores without surfacing an error — used to recover a reinstall where the
+    /// account already owns the subscription but the entitlement hasn't synced yet.
+    private func restoreSilently() async {
+        do {
+            apply(try await Purchases.shared.restorePurchases())
+        } catch {
+            print("[Subscriptions] silent restore failed: \(error.localizedDescription)")
+        }
     }
 
     /// Escape hatch shown only when the plans could not be loaded at all.

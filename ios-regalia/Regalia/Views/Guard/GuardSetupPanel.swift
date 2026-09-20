@@ -29,6 +29,27 @@ struct GuardSetupPanel: View {
                     )
                 }
                 .buttonStyle(.plain)
+
+                // One obvious switch: off lifts every shield straight away.
+                if screenTime.selectionCount > 0 {
+                    Toggle(isOn: $screenTime.isGuardEnabled) {
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text("Lock these apps")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundStyle(RegaliaTheme.bone)
+                            Text(screenTime.isGuardEnabled
+                                ? "They stay shut until today's armour is on."
+                                : "Everything is open. Turn this on to guard again.")
+                                .font(.footnote)
+                                .foregroundStyle(RegaliaTheme.steel)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+                    .tint(RegaliaTheme.gold)
+                    .onChange(of: screenTime.isGuardEnabled) { _, isOn in
+                        isOn ? Haptics.success() : Haptics.warn()
+                    }
+                }
             } else {
                 Button {
                     Haptics.tap()
@@ -63,8 +84,10 @@ struct GuardSetupPanel: View {
         }
         .familyActivityPicker(isPresented: $showPicker, selection: $screenTime.selection)
         .onChange(of: showPicker) { _, isShowing in
+            // Closing the picker applies the new selection immediately, so apps
+            // lock or open the moment the choice is made.
             guard !isShowing else { return }
-            screenTime.refreshMode()
+            screenTime.applyAfterSelectionChange()
         }
     }
 
@@ -117,6 +140,7 @@ struct GuardSetupPanel: View {
     private var statusSymbol: String {
         switch screenTime.mode {
         case .live: "lock.shield.fill"
+        case .off: "shield.slash.fill"
         case .idle: "shield.lefthalf.filled"
         case .denied: "exclamationmark.shield.fill"
         case .preview: "eye.fill"
@@ -126,6 +150,7 @@ struct GuardSetupPanel: View {
     private var statusColor: Color {
         switch screenTime.mode {
         case .live: RegaliaTheme.gold
+        case .off: RegaliaTheme.steel
         case .idle: RegaliaTheme.steel
         case .denied: RegaliaTheme.crimson
         case .preview: RegaliaTheme.steel
