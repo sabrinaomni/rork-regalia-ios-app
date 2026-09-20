@@ -66,7 +66,7 @@ nonisolated enum GuardBridge {
     }
 
     static var verseReference: String {
-        get { defaults.string(forKey: Key.verseReference) ?? "1 Corinthians 10:13" }
+        get { defaults.string(forKey: Key.verseReference) ?? "1 Corinthians 10:13 · NIV" }
         set { defaults.set(newValue, forKey: Key.verseReference) }
     }
 

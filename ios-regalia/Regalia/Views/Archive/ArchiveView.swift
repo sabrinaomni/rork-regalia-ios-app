@@ -314,7 +314,7 @@ private struct ArchiveDetailView: View {
                                                         .font(.footnote)
                                                         .foregroundStyle(RegaliaTheme.steelBright)
                                                         .fixedSize(horizontal: false, vertical: true)
-                                                    Text(verse.reference)
+                                                    Text(verse.creditedReference)
                                                         .font(.caption.italic())
                                                         .foregroundStyle(RegaliaTheme.steel)
                                                 }

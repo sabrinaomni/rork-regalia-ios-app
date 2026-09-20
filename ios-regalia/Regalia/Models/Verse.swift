@@ -5,6 +5,11 @@ nonisolated struct Verse: Identifiable, Codable, Hashable, Sendable {
     let id: String
     let text: String
     let reference: String
+
+    /// The reference with the translation credit, e.g. "Philippians 4:6 · NIV".
+    var creditedReference: String {
+        ScriptureAttribution.credited(reference)
+    }
 }
 
 /// A written prayer used to close the daily session.

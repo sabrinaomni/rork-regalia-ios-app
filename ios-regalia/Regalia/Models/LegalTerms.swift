@@ -81,7 +81,8 @@ nonisolated enum LegalTermsText {
     private static let ownership = LegalDocument.Section(
         heading: "Content and ownership",
         paragraphs: [
-            "Scripture quoted in Regalia is drawn from public-domain translations. Everything else — the prayers, the session structure, the artwork, the name Regalia, and the app itself — belongs to us or our licensors.",
+            "Scripture quoted in Regalia is taken from the Holy Bible, New International Version® (NIV®), used under Biblica's standard quotation permission. The short reflection lines shown in the Renew Your Mind step are our own wording rather than direct quotations. Everything else — the prayers, the session structure, the artwork, the name Regalia, and the app itself — belongs to us or our licensors.",
+            ScriptureAttribution.copyrightNotice,
             "Your subscription gives you a personal, revocable, non-transferable licence to use the app while it is active. It does not transfer ownership of anything.",
             "What you write in Regalia stays yours. It is stored on your device and we do not claim any right over it."
         ]

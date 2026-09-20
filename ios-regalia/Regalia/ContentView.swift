@@ -180,7 +180,7 @@ struct ContentView: View {
             preferences: store.guardPreferences,
             dailyMinutes: store.profile.dailyTimeMinutes,
             verseLine: store.today.dailyVerse?.text,
-            verseReference: store.today.dailyVerse?.reference,
+            verseReference: store.today.dailyVerse?.creditedReference,
             name: store.profile.name,
             isArmourOn: store.isArmourComplete,
             streak: store.streak,

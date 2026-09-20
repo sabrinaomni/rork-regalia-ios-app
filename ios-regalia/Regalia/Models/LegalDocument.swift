@@ -25,7 +25,7 @@ nonisolated struct LegalDocument: Identifiable, Sendable {
     let webURL: String
 
     /// Bumped on both documents together whenever either is reworded.
-    static let currentEffectiveDate = "Effective 7 September 2026"
+    static let currentEffectiveDate = "Effective 20 September 2026"
 }
 
 // MARK: - Company

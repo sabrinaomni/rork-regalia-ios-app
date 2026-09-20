@@ -79,6 +79,16 @@ struct RegaliaPrimaryButton: View {
     }
 }
 
+/// The quiet translation credit that sits beneath a verse reference.
+struct VerseTranslationTag: View {
+    var body: some View {
+        Text(ScriptureAttribution.translationTag)
+            .font(.system(size: 10, weight: .semibold))
+            .kerning(1.2)
+            .foregroundStyle(RegaliaTheme.steel.opacity(0.75))
+    }
+}
+
 /// Scripture presented on a translucent midnight panel.
 struct VerseCard: View {
     let verse: Verse
@@ -98,9 +108,13 @@ struct VerseCard: View {
                     .lineSpacing(compact ? 2 : 5)
                     .fixedSize(horizontal: false, vertical: true)
 
-                Text(verse.reference)
-                    .font(.footnote.italic())
-                    .foregroundStyle(RegaliaTheme.steel)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(verse.reference)
+                        .font(.footnote.italic())
+                        .foregroundStyle(RegaliaTheme.steel)
+                    VerseTranslationTag()
+                }
+                .accessibilityElement(children: .combine)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

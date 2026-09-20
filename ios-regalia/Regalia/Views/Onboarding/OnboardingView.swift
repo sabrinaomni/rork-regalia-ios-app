@@ -751,7 +751,7 @@ private struct WelcomeVerseTicker: View {
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
 
-            Text(quote.reference)
+            Text("\(quote.reference) · \(ScriptureAttribution.translationTag)")
                 .font(.system(size: 12, weight: .semibold, design: .rounded))
                 .kerning(3)
                 .textCase(.uppercase)

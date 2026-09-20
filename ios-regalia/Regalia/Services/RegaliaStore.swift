@@ -294,7 +294,7 @@ final class RegaliaStore {
 
         if let verse = today.temptationVerse ?? ScriptureLibrary.temptation.first {
             GuardBridge.verseText = verse.text
-            GuardBridge.verseReference = verse.reference
+            GuardBridge.verseReference = verse.creditedReference
         }
     }
 
@@ -350,7 +350,7 @@ final class RegaliaStore {
         let shared = GuardBridge.defaults
         let verse = today.dailyVerse
         shared.set(verse?.text ?? "", forKey: "widget.verseText")
-        shared.set(verse?.reference ?? "", forKey: "widget.verseReference")
+        shared.set(verse?.creditedReference ?? "", forKey: "widget.verseReference")
         shared.set(today.isComplete, forKey: "widget.isArmourOn")
         shared.set(today.equippedCount, forKey: "widget.equippedCount")
         shared.set(streak, forKey: "widget.streak")

@@ -205,9 +205,13 @@ struct SessionView: View {
                 .foregroundStyle(RegaliaTheme.steelBright)
                 .lineSpacing(4)
                 .fixedSize(horizontal: false, vertical: true)
-            Text(verse.reference)
-                .font(.footnote.italic())
-                .foregroundStyle(RegaliaTheme.steel)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(verse.reference)
+                    .font(.footnote.italic())
+                    .foregroundStyle(RegaliaTheme.steel)
+                VerseTranslationTag()
+            }
+            .accessibilityElement(children: .combine)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
@@ -246,9 +250,13 @@ struct SessionView: View {
                         .foregroundStyle(RegaliaTheme.bone)
                         .lineSpacing(4)
                         .fixedSize(horizontal: false, vertical: true)
-                    Text(daily.reference)
-                        .font(.footnote.italic())
-                        .foregroundStyle(RegaliaTheme.steel)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(daily.reference)
+                            .font(.footnote.italic())
+                            .foregroundStyle(RegaliaTheme.steel)
+                        VerseTranslationTag()
+                    }
+                    .accessibilityElement(children: .combine)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(18)
