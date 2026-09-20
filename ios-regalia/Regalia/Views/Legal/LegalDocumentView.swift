@@ -33,7 +33,10 @@ struct LegalDocumentView: View {
                 }
                 .scrollIndicators(.hidden)
             }
-            .navigationTitle(document.title)
+            // The page already names itself in the gold serif header below, so the
+            // bar stays title-free and carries only Done. Titling it here too read
+            // as a duplicate on device, where the inline title renders clearly.
+            .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -54,6 +57,9 @@ struct LegalDocumentView: View {
                 .font(.system(size: 32, weight: .bold, design: .serif))
                 .foregroundStyle(RegaliaTheme.gold)
                 .fixedSize(horizontal: false, vertical: true)
+                // Now the only place the document is named, so VoiceOver reads it
+                // as the page heading.
+                .accessibilityAddTraits(.isHeader)
 
             Text(document.effectiveDate.uppercased())
                 .font(.system(size: 11, weight: .bold, design: .rounded))
