@@ -23,12 +23,19 @@ struct PaywallView: View {
     var name: String = ""
 
     @Environment(SubscriptionStore.self) private var subscriptions
+    @Environment(RegaliaStore.self) private var store
+    @Environment(ScreenTimeGuard.self) private var screenTime
+    @Environment(ReminderScheduler.self) private var reminders
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var contentAppeared = false
     @State private var bubblesAppeared = false
     @State private var showRemotePaywall = false
+    @State private var showManage = false
+    /// Confirmation before erasing everything from the gate.
+    @State private var showEraseConfirm = false
     /// The legal document being read over the paywall, if any.
     @State private var legalDocument: LegalDocument?
 
@@ -41,6 +48,10 @@ struct PaywallView: View {
                     VStack(spacing: 0) {
                         Spacer(minLength: proxy.size.height * 0.12)
                         titleBlock
+                        if context == .gate, screenTime.isLapsePaused {
+                            Spacer(minLength: 18)
+                            lapseNotice
+                        }
                         Spacer(minLength: 26)
                         battlePoints
                         Spacer(minLength: 26)
@@ -72,6 +83,22 @@ struct PaywallView: View {
         }
         .fullScreenCover(isPresented: $showRemotePaywall) {
             RemotePaywallView()
+        }
+        .sheet(isPresented: $showManage, onDismiss: {
+            // A change made in there should show here at once.
+            Task { await subscriptions.refreshStatus() }
+        }) {
+            ManageSubscriptionView()
+        }
+        .alert("Start over?", isPresented: $showEraseConfirm) {
+            Button("Erase everything", role: .destructive) {
+                screenTime.forget()
+                reminders.cancelAll()
+                store.eraseEverything()
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This clears your profile, streak, and the whole archive from this device.")
         }
         // Read in the app rather than a browser: the text is in the binary, so it
         // can never fail to load in front of a reviewer.
@@ -312,6 +339,8 @@ struct PaywallView: View {
             callToAction
             smallPrint
                 .padding(.top, 14)
+            escapeLinks
+                .padding(.top, 10)
         }
         .padding(.horizontal, 20)
         .padding(.top, 12)
@@ -499,6 +528,80 @@ struct PaywallView: View {
         }
         .font(.caption2)
         .frame(maxWidth: .infinity)
+    }
+
+    /// The quiet ways out of the gate — nobody is ever trapped on this screen.
+    /// Terms and privacy sit in the small print right above.
+    @ViewBuilder
+    private var escapeLinks: some View {
+        if context == .gate {
+            HStack(spacing: 6) {
+                escapeLink("Manage") { showManage = true }
+                escapeSeparator
+                escapeLink("Support") {
+                    if let url = URL(string: SubscriptionLinks.support) { openURL(url) }
+                }
+                escapeSeparator
+                escapeLink("Erase & start over") { showEraseConfirm = true }
+            }
+            .font(.caption2)
+            .frame(maxWidth: .infinity)
+        }
+    }
+
+    private var escapeSeparator: some View {
+        Text("·")
+            .foregroundStyle(RegaliaTheme.steel.opacity(0.6))
+    }
+
+    private func escapeLink(_ title: String, action: @escaping () -> Void) -> some View {
+        Button {
+            Haptics.tap()
+            action()
+        } label: {
+            Text(title)
+        }
+        .buttonStyle(.plain)
+        .foregroundStyle(RegaliaTheme.steelBright)
+    }
+
+    /// The calm line for someone whose subscription ended: the apps are open,
+    /// the guard rests, and nothing here is a punishment.
+    @ViewBuilder
+    private var lapseNotice: some View {
+        if context == .gate, screenTime.isLapsePaused {
+            HStack(spacing: 12) {
+                Image(systemName: "lock.open.shield.fill")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(RegaliaTheme.gold)
+                    .frame(width: 38, height: 38)
+                    .regaliaGlass(in: Circle())
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("Blocking is paused")
+                        .font(.system(size: 15, weight: .semibold, design: .rounded))
+                        .foregroundStyle(RegaliaTheme.bone)
+                    Text("Your apps are unlocked while Regalia rests. Everything returns the moment you're back.")
+                        .font(.footnote)
+                        .foregroundStyle(RegaliaTheme.steelBright)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .regaliaGlass(in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .stroke(RegaliaTheme.hairline, lineWidth: 1)
+            }
+            .opacity(contentAppeared ? 1 : 0)
+            .offset(y: contentAppeared ? 0 : 12)
+            .animation(
+                reduceMotion ? .easeOut(duration: 0.3) : .spring(response: 0.55, dampingFraction: 0.82),
+                value: contentAppeared
+            )
+            .accessibilityElement(children: .combine)
+        }
     }
 
     private func legalLink(_ title: String, document: LegalDocument) -> some View {
@@ -747,4 +850,7 @@ private struct ShimmerPlanCard: View {
 #Preview {
     PaywallView(context: .gate)
         .environment(SubscriptionStore())
+        .environment(RegaliaStore())
+        .environment(ScreenTimeGuard())
+        .environment(ReminderScheduler())
 }

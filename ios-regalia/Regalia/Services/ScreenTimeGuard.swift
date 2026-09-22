@@ -29,6 +29,11 @@ final class ScreenTimeGuard {
     private(set) var mode: Mode = .preview
     private(set) var lastError: String?
 
+    /// True while the subscription is inactive and the guard is being held paused:
+    /// nothing shields, nothing re-locks, and the selection waits untouched for
+    /// their return. Persisted, so a relaunch mid-lapse never re-shields either.
+    private(set) var isLapsePaused: Bool
+
     /// The apps, categories, and websites picked through Apple's own picker.
     ///
     /// Changing the selection re-applies the shield immediately, so adding an app
@@ -58,7 +63,10 @@ final class ScreenTimeGuard {
 
     private let center = AuthorizationCenter.shared
 
+    private static let lapsePausedKey = "guard.lapsePaused"
+
     init() {
+        isLapsePaused = GuardBridge.defaults.bool(forKey: ScreenTimeGuard.lapsePausedKey)
         selection = ScreenTimeGuard.loadSelection()
         isGuardEnabled = GuardBridge.isGuardEnabled
         refreshMode()
@@ -112,7 +120,9 @@ final class ScreenTimeGuard {
             if selectionCount == 0 {
                 mode = .idle
             } else {
-                mode = isGuardEnabled ? .live : .off
+                // A lapsed subscription reads exactly like a switched-off guard:
+                // nothing is locked, and nothing may claim otherwise.
+                mode = isGuardEnabled && !isLapsePaused ? .live : .off
             }
         case .denied:
             mode = .denied("Allow Regalia in Settings → Screen Time to lock apps for real.")
@@ -147,6 +157,10 @@ final class ScreenTimeGuard {
     func reconcile(isArmourOn: Bool, bedtimeMinutes: Int) {
         self.isArmourOn = isArmourOn
         self.bedtimeMinutes = bedtimeMinutes
+        guard !isLapsePaused else {
+            holdEverythingOpen()
+            return
+        }
         GuardBridge.realBlockingOn = isLive
         guard isAuthorized else { return }
 
@@ -154,9 +168,22 @@ final class ScreenTimeGuard {
         scheduleBedtimeRelock(bedtimeMinutes: bedtimeMinutes)
     }
 
+    /// The lapse state of record: any leftover shield is lifted and nothing
+    /// re-locks it. Idempotent, so it can run on every foreground while paused.
+    private func holdEverythingOpen() {
+        GuardBridge.realBlockingOn = false
+        releaseEverything()
+        DeviceActivityCenter().stopMonitoring([GuardActivity.bedtime, GuardActivity.pass])
+        refreshMode()
+    }
+
     /// Re-applies the shield from the state already known, so a selection change or
     /// the on/off switch takes effect the moment it happens rather than on next launch.
     private func applyCurrentState() {
+        guard !isLapsePaused else {
+            holdEverythingOpen()
+            return
+        }
         GuardBridge.realBlockingOn = isLive
         guard isAuthorized else { return }
 
@@ -169,7 +196,7 @@ final class ScreenTimeGuard {
 
     /// Locks every selected app, category, and website.
     func applyShield() {
-        guard isAuthorized, isGuardEnabled else { return }
+        guard isAuthorized, isGuardEnabled, !isLapsePaused else { return }
         let store = GuardBridge.store
         store.shield.applications = selection.applicationTokens.isEmpty ? nil : selection.applicationTokens
         store.shield.applicationCategories = selection.categoryTokens.isEmpty
@@ -197,7 +224,7 @@ final class ScreenTimeGuard {
 
     /// Registers the repeating window that closes the guard again each night.
     func scheduleBedtimeRelock(bedtimeMinutes: Int) {
-        guard isAuthorized else { return }
+        guard isAuthorized, !isLapsePaused else { return }
         let hour = bedtimeMinutes / 60
         let minute = bedtimeMinutes % 60
         let endMinute = (minute + 59) % 60
@@ -216,6 +243,36 @@ final class ScreenTimeGuard {
             lastError = nil
         } catch {
             lastError = ScreenTimeGuard.describe(error)
+        }
+    }
+
+    // MARK: - Subscription lapse
+
+    /// The subscription is gone: lift every shield and stop the nightly re-lock so
+    /// the phone is never held hostage. The selection is kept untouched for their
+    /// return, and the pause is only remembered when the guard was actually live —
+    /// that memory is what drives the welcome-back offer when they subscribe again.
+    func pauseForLapse() {
+        let wasLive = isLive
+        isLapsePaused = wasLive
+        GuardBridge.defaults.set(wasLive, forKey: ScreenTimeGuard.lapsePausedKey)
+        holdEverythingOpen()
+    }
+
+    /// The subscription is back. `restoreGuard` mirrors the welcome-back choice:
+    /// yes re-arms the guard exactly as it was; no leaves blocking switched off.
+    func resumeAfterLapse(restoreGuard: Bool) {
+        guard isLapsePaused else { return }
+        isLapsePaused = false
+        GuardBridge.defaults.set(false, forKey: ScreenTimeGuard.lapsePausedKey)
+        if restoreGuard {
+            refreshMode()
+            applyCurrentState()
+            scheduleBedtimeRelock(bedtimeMinutes: bedtimeMinutes)
+        } else {
+            // Their choice — the toggle then reads off, and they can flip it
+            // back in the Guard tab any time now that they're subscribed.
+            isGuardEnabled = false
         }
     }
 
@@ -244,6 +301,8 @@ final class ScreenTimeGuard {
     }
 
     func forget() {
+        isLapsePaused = false
+        GuardBridge.defaults.set(false, forKey: ScreenTimeGuard.lapsePausedKey)
         selection = FamilyActivitySelection()
         isGuardEnabled = true
         GuardBridge.isGuardEnabled = true

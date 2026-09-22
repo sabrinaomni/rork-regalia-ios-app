@@ -23,6 +23,8 @@ struct ContentView: View {
     @State private var scrollOffsets: [Int: CGFloat] = [:]
     /// The title screen plays only before onboarding begins, on first run.
     @State private var showTitle = true
+    /// The welcome-back note asking whether to re-arm the guard after a lapse.
+    @State private var showGuardRestore = false
 
     var body: some View {
         Group {
@@ -68,8 +70,34 @@ struct ContentView: View {
         .onChange(of: store.isArmourComplete) { _, _ in
             reconcile()
         }
+        .onChange(of: subscriptions.hasAccess) { _, hasAccess in
+            guard store.isOnboarded else { return }
+            if hasAccess {
+                // Back after a lapse: ask before re-arming the guard they left behind.
+                if screenTime.isLapsePaused {
+                    showGuardRestore = true
+                }
+            } else {
+                // Never hold the phone hostage: the moment the subscription is
+                // gone, every shield lifts and nothing re-applies it.
+                screenTime.pauseForLapse()
+            }
+            reconcile()
+        }
         .onReceive(NotificationCenter.default.publisher(for: ReminderScheduler.openSessionSignal)) { _ in
             openSessionFromNotification()
+        }
+        .alert("Welcome back", isPresented: $showGuardRestore) {
+            Button("Turn the guard back on") {
+                screenTime.resumeAfterLapse(restoreGuard: true)
+                reconcile()
+            }
+            Button("Not now", role: .cancel) {
+                screenTime.resumeAfterLapse(restoreGuard: false)
+                reconcile()
+            }
+        } message: {
+            Text("Your guard has been paused since your subscription ended. Your app list is exactly as you left it.")
         }
     }
 
