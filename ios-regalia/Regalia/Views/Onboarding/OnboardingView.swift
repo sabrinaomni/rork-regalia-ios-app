@@ -30,7 +30,7 @@ struct OnboardingView: View {
             if step == .paywall {
                 PaywallView(
                     context: .onboarding,
-                    onSubscribed: { advance() },
+                    onSubscribed: { advancePastPaywall() },
                     onBack: { retreat() },
                     name: draft.name
                 )
@@ -41,7 +41,7 @@ struct OnboardingView: View {
                     // would bounce them straight back to the screen they just left,
                     // which is what made the back arrow look dead.
                     guard !isSteppingBack, subscriptions.hasAccess else { return }
-                    advance()
+                    advancePastPaywall()
                 }
             } else {
                 flow
@@ -109,8 +109,10 @@ struct OnboardingView: View {
                         .foregroundStyle(RegaliaTheme.bone.opacity(0.9))
                         .frame(width: 34, height: 34)
                         .regaliaGlass(in: Circle())
+                        .frame(width: 44, height: 44)
+                        .contentShape(.circle)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.regaliaPressable)
                 .accessibilityLabel("Back")
             }
 
@@ -610,6 +612,21 @@ struct OnboardingView: View {
         withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) {
             stepIndex = previousStepIndex
         }
+    }
+
+    /// The only route the plans screen may take to move someone forward.
+    ///
+    /// An entitlement confirmation can land a moment *after* the back arrow was
+    /// pressed: the store answers slowly, and the paywall is still on screen
+    /// finishing its transition when the answer arrives. Acting on it then would
+    /// drop the person straight back onto the screen they just left, which is
+    /// exactly what made the arrow look dead on device. Anchoring to the current
+    /// step means a late answer from a paywall we have already walked away from is
+    /// ignored, while a purchase made while genuinely looking at the plans still
+    /// moves them on.
+    private func advancePastPaywall() {
+        guard step == .paywall else { return }
+        advance()
     }
 
     /// The step to land on when stepping back. Someone who already has access steps

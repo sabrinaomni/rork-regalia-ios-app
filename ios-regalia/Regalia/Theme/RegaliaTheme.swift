@@ -33,6 +33,29 @@ enum RegaliaTheme {
     }
 }
 
+/// A plain button that visibly answers the finger: a quick dip in scale and
+/// brightness on touch-down.
+///
+/// Chrome controls like the paywall back arrow trigger a screen change that can
+/// take a beat to play. Without an immediate reaction the control reads as dead
+/// even when the tap registered, which is exactly how the paywall back arrow was
+/// reported from device testing.
+struct RegaliaPressableButtonStyle: ButtonStyle {
+    var pressedScale: CGFloat = 0.9
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? pressedScale : 1)
+            .opacity(configuration.isPressed ? 0.65 : 1)
+            .animation(.spring(response: 0.25, dampingFraction: 0.7), value: configuration.isPressed)
+    }
+}
+
+extension ButtonStyle where Self == RegaliaPressableButtonStyle {
+    /// `.plain` with touch-down feedback.
+    static var regaliaPressable: RegaliaPressableButtonStyle { RegaliaPressableButtonStyle() }
+}
+
 extension Color {
     /// Creates a color from a 24-bit RGB literal such as `0xE8B44A`.
     nonisolated init(hex: UInt32, alpha: Double = 1) {

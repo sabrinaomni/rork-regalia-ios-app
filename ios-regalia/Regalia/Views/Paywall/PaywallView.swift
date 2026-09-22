@@ -187,8 +187,14 @@ struct PaywallView: View {
                 .foregroundStyle(RegaliaTheme.bone.opacity(0.9))
                 .frame(width: 34, height: 34)
                 .regaliaGlass(in: Circle())
+                // The glass stays 34pt, but the tap target grows to Apple's 44pt
+                // minimum so a slightly low or wide thumb still lands it.
+                .frame(width: 44, height: 44)
+                .contentShape(.circle)
         }
-        .buttonStyle(.plain)
+        // Answers the finger immediately: the screen change behind it can take a
+        // beat, and without this the arrow reads as dead.
+        .buttonStyle(.regaliaPressable)
         .accessibilityLabel(label)
     }
 
