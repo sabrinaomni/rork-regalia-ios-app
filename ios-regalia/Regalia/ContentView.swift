@@ -20,7 +20,11 @@ struct ContentView: View {
     /// Each tab remembers its own collapsed state, so switching tabs never
     /// collapses a screen that is sitting at its top.
     @State private var collapsedTabs: [Int: Bool] = [:]
-    @State private var scrollOffsets: [Int: CGFloat] = [:]
+    /// The turning point of the current scroll direction, per tab: the lowest
+    /// offset seen while expanded, or the deepest while collapsed.
+    @State private var scrollAnchors: [Int: CGFloat] = [:]
+    /// Tabs whose content is being dragged or is gliding from a flick right now.
+    @State private var activelyScrollingTabs: Set<Int> = []
     /// The title screen plays only before onboarding begins, on first run.
     @State private var showTitle = true
     /// The welcome-back note asking whether to re-arm the guard after a lapse.
@@ -150,29 +154,50 @@ struct ContentView: View {
         content()
             .regaliaScrollOffsetReporting { offset in
                 handleScrollOffset(offset, tab: id)
+            } onActive: { isActive in
+                if isActive {
+                    activelyScrollingTabs.insert(id)
+                } else {
+                    activelyScrollingTabs.remove(id)
+                }
             }
             .opacity(isActive ? 1 : 0)
             .allowsHitTesting(isActive)
             .accessibilityHidden(!isActive)
     }
 
-    /// Collapses the bar after a clear downward drift past the headline, and
-    /// expands again on any upward movement or on returning to the top.
+    /// Collapses the bar after a clear downward scroll past the headline, and
+    /// expands again after a deliberate upward scroll or on returning to the top.
+    /// Offsets arrive already clamped, so overscroll bounce never reaches here;
+    /// direction only counts while the person is actually scrolling, and each
+    /// flip needs real travel from the turning point so small wobbles can't toggle it.
     private func handleScrollOffset(_ offset: CGFloat, tab: Int) {
         guard tab == selection else { return }
-        let previous = scrollOffsets[tab] ?? offset
-        scrollOffsets[tab] = offset
+        let wasCollapsed = collapsedTabs[tab] ?? false
+        var anchor = scrollAnchors[tab] ?? offset
+        var collapsed = wasCollapsed
 
-        var collapsed = collapsedTabs[tab] ?? false
         if offset <= 4 {
             collapsed = false
-        } else if offset > 56, offset > previous + 0.5 {
-            collapsed = true
-        } else if offset < previous - 0.5 {
-            collapsed = false
+        } else if activelyScrollingTabs.contains(tab) {
+            if wasCollapsed {
+                anchor = max(anchor, offset)
+                if anchor - offset >= 24 { collapsed = false }
+            } else {
+                anchor = min(anchor, offset)
+                if offset > 56, offset - anchor >= 12 { collapsed = true }
+            }
+        } else {
+            // Idle movement (layout changes, content loading) just re-bases.
+            anchor = offset
         }
 
-        guard collapsed != (collapsedTabs[tab] ?? false) else { return }
+        let nextAnchor = collapsed == wasCollapsed ? anchor : offset
+        if scrollAnchors[tab] != nextAnchor {
+            scrollAnchors[tab] = nextAnchor
+        }
+
+        guard collapsed != wasCollapsed else { return }
         if reduceMotion {
             collapsedTabs[tab] = collapsed
         } else {

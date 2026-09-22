@@ -12,13 +12,31 @@ struct RegaliaTab: Identifiable {
 // MARK: - Scroll reporting
 
 extension View {
-    /// Reports how far a scroll view has travelled beneath its top edge (≥ 0),
-    /// so the glass tab bar can collapse while reading and expand again on the way back up.
-    func regaliaScrollOffsetReporting(_ action: @escaping (CGFloat) -> Void) -> some View {
+    /// Reports how far a scroll view has travelled through its content, so the
+    /// glass tab bar can collapse while reading and expand again on the way back up.
+    ///
+    /// The offset is clamped to the real content range: the rubber-band stretch
+    /// past the top or bottom (and its spring-back) never registers as movement,
+    /// leaving overscroll entirely to the system. `onActive` reports whether the
+    /// person is dragging or the content is gliding from a flick, so settling and
+    /// layout shifts can be told apart from deliberate scrolling.
+    func regaliaScrollOffsetReporting(
+        onOffset: @escaping (CGFloat) -> Void,
+        onActive: @escaping (Bool) -> Void
+    ) -> some View {
         onScrollGeometryChange(for: CGFloat.self) { geometry in
-            max(0, geometry.contentOffset.y)
+            let insets = geometry.contentInsets
+            let travelled = geometry.contentOffset.y + insets.top
+            let limit = max(
+                0,
+                geometry.contentSize.height + insets.top + insets.bottom - geometry.containerSize.height
+            )
+            return min(max(0, travelled), limit).rounded()
         } action: { _, offset in
-            action(offset)
+            onOffset(offset)
+        }
+        .onScrollPhaseChange { _, phase in
+            onActive(phase == .interacting || phase == .decelerating)
         }
     }
 }
@@ -30,6 +48,10 @@ extension View {
 /// bar tightens to icons only, and any scroll upward — or reaching the top —
 /// brings the names back.
 struct RegaliaGlassTabBar: View {
+    /// The space the bar always claims at the bottom of the screen. The bar
+    /// shrinks inside it, so collapsing never shifts the content above.
+    static let reservedHeight: CGFloat = 64
+
     let tabs: [RegaliaTab]
     @Binding var selection: Int
     let isCollapsed: Bool
@@ -40,7 +62,7 @@ struct RegaliaGlassTabBar: View {
     @State private var pressed = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    private var barHeight: CGFloat { isCollapsed ? 50 : 64 }
+    private var barHeight: CGFloat { isCollapsed ? 50 : Self.reservedHeight }
     private var circleSize: CGFloat { isCollapsed ? 46 : 58 }
     /// How far the circle rides above its icon row so the "Regalia" name below
     /// it stays clear; a little less lift once the bar collapses.
@@ -67,6 +89,7 @@ struct RegaliaGlassTabBar: View {
         .padding(.horizontal, 10)
         .frame(height: barHeight)
         .background { barChrome }
+        .frame(height: Self.reservedHeight, alignment: .bottom)
     }
 
     // MARK: Tabs
