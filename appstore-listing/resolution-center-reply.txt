@@ -1,0 +1,17 @@
+Hello,
+
+Thank you for the review.
+
+Regalia requires an auto-renewing subscription (Regalia Premium) to use. We have updated the metadata so this is clear everywhere it is sold:
+
+- The App Description now states near the top that Regalia Premium is a paid, auto-renewing subscription with its prices, and that it is required to use the app and every feature described.
+- Every feature heading in the description is now marked "Requires subscription".
+- Every screenshot now carries a "Requires subscription" label.
+- The Promotional Text now states that a Regalia Premium subscription is required.
+
+We have also confirmed the Age Rating has Parental Controls set to None. Regalia uses Screen Time in individual mode only, so a person can limit apps on their own device; there are no parent or child accounts and no age assurance.
+
+The binary is unchanged (build 7). Thank you for your time.
+
+Kind regards,
+OMNIAI LTD
