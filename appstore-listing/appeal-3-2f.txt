@@ -1,0 +1,74 @@
+APPEAL TO THE APP REVIEW BOARD
+Pending Termination Notice — Apple Developer Program License Agreement, Section 3.2(f)
+
+Account holder: OMNIAI LTD (Company No. 16311606, England and Wales)
+App: Regalia (Apple ID 6809547894)
+Filing: appeal of app removal and account flag for removal
+Deadline: within 30 calendar days of the Pending Termination Notice
+
+---
+
+1. WHAT WE ARE ASKING FOR
+
+We ask the App Review Board to (a) reinstate the Regalia app on the App Store, (b) lift the removal flag from our Apple Developer Program membership, and (c) confirm that our second app, currently in TestFlight testing only, may continue through normal review when submitted.
+
+We also respectfully ask that Apple identify the specific submission, screen, or evidence on which the Pending Termination Notice rests. The notice lists four general categories of conduct but names no app, no build, and no specific finding. We can address a specific finding; we believe we can show that each of the four general categories, taken at face value, does not match our record.
+
+2. THE FOUR CLAIMED CATEGORIES, ADDRESSED DIRECTLY
+
+2.1 "Dynamically populating different app content after review"
+
+This is not possible for our app by design. Regalia is local-first: it has no server, no remote configuration, no web views pulling content, and no URL-based data loading of any kind. Every verse, prayer, reflection, and interface string in the app is compiled into the submitted binary. The only network communication in the entire app is RevenueCat's purchase receipt handling, which returns subscription status only — never content.
+
+We would welcome a binary inspection of build 7 to confirm this. The reviewers who examined our previous two submissions saw precisely what any user sees: the same compiled content, unchanged before, during, and after review.
+
+2.2 "Submitting apps with hidden features"
+
+Regalia has none. Its feature set — Screen Time app blocking, the daily Armour of God session, mood-based Scripture, the archive, reminders, the home-screen widget, unlock passes — is fully disclosed in the App Store description, shown on the in-app paywall, and listed in the settings screen. The single compile-time conditional in our source selects a RevenueCat test API key for development builds and the production key for App Store builds. This is standard, documented practice and involves no runtime behavior change of any kind.
+
+2.3 "Repeatedly submitting misleading apps"
+
+Our submission history shows the opposite of this. The record consists of:
+
+(a) One rejection under Guideline 2.3.6 concerning an Age Rating questionnaire selection (Parental Controls). This was a questionnaire mis-selection by us. We corrected it to "None" — accurate, because Regalia uses Screen Time in individual mode for self-limiting only, with no parent/child accounts and no age assurance.
+
+(b) One rejection under Guideline 2.3.2 concerning subscription disclosure in the listing metadata. We responded by making the paid nature of the app MORE explicit, not less: a prominent disclosure paragraph naming Regalia Premium as a paid, auto-renewing subscription with its prices; a "Requires subscription" tag on every feature heading; and a "Requires subscription" label on every screenshot.
+
+A developer concealing payment requirements does not volunteer a top-of-description disclosure, tag every feature heading, and label every screenshot at the first request. Both rejections were metadata-level, both were cured immediately and cooperatively, and no reviewer at any point identified misleading behavior inside the app itself.
+
+2.4 "Concrete references to content that you are not authorized to provide"
+
+We believe this refers to the Scripture content. Regalia quotes the New International Version (NIV). Biblica's standard copyright permission permits quotation of up to 500 verses without written permission, provided the required attribution accompanies the quotations. Our app complies: each quotation carries an "NIV" translation tag, and the full required copyright notice ("Scripture quotations taken from The Holy Bible, New International Version® NIV®. Copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.™ Used by permission. All rights reserved worldwide.") appears in our Terms of Use, which are displayed in the app and published on our own website. The short reflection lines in the "Renew Your Mind" step are our own original wording, not NIV quotations, and are identified as such in our Terms. All artwork, the app name, and the session structure are our own original work. Our Terms of Use and Privacy Policy are published on our own live domain and mirrored verbatim inside the app binary.
+
+3. DISCLOSURE OF OUR FULL APP PORTFOLIO
+
+Our account contains one further app, which is in internal TestFlight testing and has never been submitted for App Review. It shares the same local-first architecture and the same authorship — ours and our licensors'. We disclose it here because the account-wide removal swept it up, and we ask that any restrictions on it be lifted or at minimum explained. We have nothing to hide about it and will supply details on request.
+
+4. STEPS WE WILL TAKE TO PREVENT RECURRENCE
+
+Although we do not accept that any fraudulent conduct occurred, we take the concerns seriously and will make the following changes in our next binary submission, before any resubmission:
+
+(a) We will remove or reword three developer-facing strings that currently read "Apple has to approve app blocking for your developer account before it works on a physical iPhone." These were written as transparency for TestFlight testers while our Family Controls distribution request was pending. Apple has since granted that approval, and we agree the wording reads poorly out of context and could be mistaken for a review-versus-production behavior switch. It never functioned as one — the strings are visible to the user, not hidden, and the underlying authorization behavior is identical in review and production — but we will remove them.
+
+(b) We will rename the "demo tiles" in our Guard setup screen to neutral wording, since we accept that the word "demo" could be misread as a mock or placeholder feature.
+
+(c) We will continue to keep all legal links (Terms, Privacy, Support) on our own controlled domain and in-app, and to state subscription prices and auto-renewal terms prominently on the paywall and in the listing.
+
+(d) We will route any future Screen Time or DeviceActivity behavior changes through a Code Level Assessment in advance, so reviewers have context before such a submission.
+
+5. PROCEDURAL CONCERNS
+
+We raise these as questions, not objections, because we want to fix any real problem:
+
+- The notice does not identify the app, build, submission, screen, or evidence at issue. Our best understanding is that it rests on the two cured metadata rejections above; if it rests on something else, we ask to be told what, so we can respond to it.
+- Escalating from two metadata-level rejections — both cured at first attempt, with no fraud warning at any point — directly to a section 3.2(f) account termination, with no intermediate warning, is difficult to reconcile with the severity of the conduct the notice describes.
+- The account-wide remedy also removed an app that has never been reviewed, before it had any opportunity to be assessed.
+
+6. CLOSING
+
+OMNIAI LTD has one product built on a simple premise: a prayer before the feed. We have no history of deceptive conduct, we cured every finding immediately, and the app's architecture makes the claimed schemes technically impossible. We ask the Board to reinstate the app and the account, and we remain glad to answer questions or supply any additional materials — including the source of any specific concern the Board identifies.
+
+Kind regards,
+OMNIAI LTD
+info@omniaiagency.co.uk
+71–75 Shelton Street, Covent Garden, London WC2H 9JQ
